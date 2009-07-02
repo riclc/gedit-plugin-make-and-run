@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<interface>
+  <requires lib="gtk+" version="2.16"/>
+  <!-- interface-naming-policy toplevel-contextual -->
+  <object class="GtkListStore" id="storeOutput">
+    <columns>
+      <!-- column-name Arquivo -->
+      <column type="gchararray"/>
+      <!-- column-name Linha -->
+      <column type="gint"/>
+      <!-- column-name Mensagem -->
+      <column type="gchararray"/>
+    </columns>
+  </object>
+  <object class="GtkHBox" id="area">
+    <property name="visible">True</property>
+    <child>
+      <object class="GtkScrolledWindow" id="scrolledwindow1">
+        <property name="visible">True</property>
+        <property name="can_focus">True</property>
+        <property name="border_width">5</property>
+        <property name="hscrollbar_policy">automatic</property>
+        <property name="vscrollbar_policy">automatic</property>
+        <property name="shadow_type">etched-out</property>
+        <child>
+          <object class="GtkTreeView" id="listOutput">
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="model">storeOutput</property>
+            <property name="search_column">0</property>
+          </object>
+        </child>
+      </object>
+      <packing>
+        <property name="position">0</property>
+      </packing>
+    </child>
+    <child>
+      <object class="GtkVBox" id="vbox1">
+        <property name="visible">True</property>
+        <property name="orientation">vertical</property>
+        <property name="spacing">6</property>
+        <child>
+          <object class="GtkButton" id="btnClear">
+            <property name="label" translatable="yes">gtk-clear</property>
+            <property name="visible">True</property>
+            <property name="can_focus">True</property>
+            <property name="receives_default">True</property>
+            <property name="use_stock">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">0</property>
+          </packing>
+        </child>
+        <child>
+          <placeholder/>
+        </child>
+      </object>
+      <packing>
+        <property name="expand">False</property>
+        <property name="padding">2</property>
+        <property name="position">1</property>
+      </packing>
+    </child>
+  </object>
+</interface>
