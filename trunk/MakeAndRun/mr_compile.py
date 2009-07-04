@@ -52,7 +52,7 @@ class CompileSource:
 
     def run_compiler(self, cmd):
     
-        arq = os.path.basename( self.src.get_arq() )
+        arq = os.path.basename( self.src.get_filename() )
         
         p = CmdProcess()
         p.run_cmd_on_dir( cmd + " " + arq, self.src.get_dir() )

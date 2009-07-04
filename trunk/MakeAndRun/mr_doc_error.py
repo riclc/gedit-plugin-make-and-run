@@ -22,7 +22,7 @@ class DocError:
             gtk.gdk.color_parse( "#dd0000" )
         )
     
-    def marca_erro(self, line):
+    def mark_error(self, line):
         if self.doc == None:
             return
             
@@ -36,7 +36,7 @@ class DocError:
         self.view.scroll_to_cursor()
     
     
-    def remove_erro(self):
+    def remove_error(self):
         if self.doc == None:
             return
             

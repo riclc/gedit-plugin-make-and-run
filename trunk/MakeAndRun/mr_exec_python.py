@@ -69,7 +69,7 @@ class PythonRun:
         # supoe que ja foi pro diretorio do arquivo.
 
         self.pluginManager = src.pluginManager
-        self.arq = src.get_arq()
+        self.arq = src.get_filename()
         
         self.processo = Popen(
             args = ["python", "-u", self.arq],

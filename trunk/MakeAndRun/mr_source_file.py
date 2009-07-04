@@ -31,20 +31,20 @@ class SourceFile:
         return self.doc
 
         
-    def get_arq(self):    
+    def get_filename(self):    
         if self.doc == None:
             return ""
         
-        arq = self.doc.get_uri()
-        if arq != "":
-            arq = arq.replace( "file://", "" )
+        filename = self.doc.get_uri()
+        if filename != "":
+            filename = filename.replace( "file://", "" )
         
-        return arq
+        return filename
         
 
     def get_dir(self):
-        diretorio = os.path.dirname( self.get_arq() )
-        return diretorio
+        filename_dir = os.path.dirname( self.get_filename() )
+        return filename_dir
 
 
     def get_lang(self):    
@@ -126,10 +126,10 @@ class SourceFile:
         os.chdir( self.get_dir() )
     
 
-    def marca_erro(self, line):
-        self.docError.marca_erro( line )
+    def mark_error(self, line):
+        self.docError.mark_error( line )
     
     
-    def remove_erro(self):
-        self.docError.remove_erro()
+    def remove_error(self):
+        self.docError.remove_error()
 
