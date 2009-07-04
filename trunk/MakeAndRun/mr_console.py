@@ -11,7 +11,7 @@ import os.path
 
 
 from mr_msgbox import *
-import mr_globals
+from mr_globals import *
 
 
 def roda_cmd(cmd):
@@ -19,7 +19,7 @@ def roda_cmd(cmd):
     # quando executamos algo tipo 'make &', o processo nao interrompe
     # o gedit, e retorna 0 como resposta. eh assincrono.
 
-    if mr_globals.checked_show_terminal:    
+    if configurations.show_terminal:    
         os.system(
             "gnome-terminal --execute bash -c '" +
             cmd +
