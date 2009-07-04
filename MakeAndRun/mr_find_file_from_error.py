@@ -36,8 +36,8 @@ def find_file_from_error(mrplugin, error_iter, can_msgbox = True):
             tab = gedit.tab_get_from_document( d )
             mrplugin.window.set_active_tab( tab )
             
-            mrplugin.get_src().remove_erro()
-            mrplugin.get_src().marca_erro( linha )
+            mrplugin.get_src().remove_error()
+            mrplugin.get_src().mark_error( linha )
             
             return
         
@@ -73,7 +73,7 @@ def find_file_from_error(mrplugin, error_iter, can_msgbox = True):
     # pra continuar o codigo supondo que tudo isso ja foi processado,
     # devemos rodar varias iteracoes do looping do gtk.
     #
-    # sem fazer isso, os comandos em seguida (get_src().marca_erro
+    # sem fazer isso, os comandos em seguida (get_src().mark_error
     # etc.) nao funcionarao adequadamente.
     #
     while gtk.events_pending():
@@ -82,7 +82,7 @@ def find_file_from_error(mrplugin, error_iter, can_msgbox = True):
     # com a nova tab ativada, o 'active_document' muda.
     # assim, fazemos get_src() pra ativar o erro nele.
     #
-    mrplugin.get_src().remove_erro()
-    mrplugin.get_src().marca_erro( linha )
+    mrplugin.get_src().remove_error()
+    mrplugin.get_src().mark_error( linha )
 
 

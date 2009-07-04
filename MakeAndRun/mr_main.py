@@ -185,7 +185,7 @@ class MakeAndRun:
     def on_btnClear(self, *args):
     
         self.storeOutput.clear()
-        self.get_src().remove_erro()
+        self.get_src().remove_error()
         
         bottom = self.window.get_bottom_panel()
         bottom.hide()

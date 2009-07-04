@@ -266,7 +266,7 @@ class CmdProcess():
         
         # limpa as marcas de erros atuais
         #
-        src.remove_erro()
+        src.remove_error()
         storeOutput.clear()
 
         # deu certo a compilacao/build/make?
