@@ -318,7 +318,7 @@ class MakefileManager:
         # rodar o projeto (c / c++)
         #
 
-        makeExecTarget = self.src.pluginManager.textMakeExec.get_text()
+        makeExecTarget = configurations.cmd_make_exec
 
         if makeExecTarget == '':
             makeExecTarget = "exec"
