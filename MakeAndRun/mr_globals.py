@@ -27,24 +27,24 @@ GCONF_DIR = "/apps/gedit-2/plugins/make-and-run/"
 
 
 class configurations:
-    compile_c = "gcc -c"
-    compile_cpp = "g++ -c"
-    compile_python = "pyflakes"
-    compile_autosave = True
+    compile_c                            = "gcc -c"
+    compile_cpp                          = "g++ -c"
+    compile_python                       = "pyflakes"
+    compile_autosave                     = True
 
-    cmd_make_exec = "exec"
-    show_terminal = True
-    run_python_thru_make_exec = False
-    run_python_auto_close_window = True
+    cmd_make_exec                        = "exec"
+    show_terminal                        = True
+    run_python_thru_make_exec            = False
+    run_python_auto_close_window         = True
+    run_python_auto_close_window_by_time = True
 
-    bottom_panel_size = 200
-    bottom_panel_size_ignore = False
+    bottom_panel_size                    = 200
+    bottom_panel_size_ignore             = False
 
 
     @staticmethod
     def load():
         gclient = gconf.client_get_default()
-
 
         try:
             configurations.compile_c = gclient.get( \
@@ -64,6 +64,8 @@ class configurations:
                 GCONF_DIR + "run_python_thru_make_exec" ).get_bool()
             configurations.run_python_auto_close_window = gclient.get( \
                 GCONF_DIR + "run_python_auto_close_window" ).get_bool()
+            configurations.run_python_auto_close_window_by_time = gclient.get( \
+                GCONF_DIR + "run_python_auto_close_window_by_time" ).get_bool()
 
             configurations.bottom_panel_size = gclient.get( \
                 GCONF_DIR + "bottom_panel_size" ).get_int()
@@ -95,6 +97,8 @@ class configurations:
             configurations.run_python_thru_make_exec )
         gclient.set_bool( GCONF_DIR + "run_python_auto_close_window", \
             configurations.run_python_auto_close_window )
+        gclient.set_bool( GCONF_DIR + "run_python_auto_close_window_by_time", \
+            configurations.run_python_auto_close_window_by_time )
 
         gclient.set_int( GCONF_DIR + "bottom_panel_size", \
             configurations.bottom_panel_size )

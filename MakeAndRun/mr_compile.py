@@ -6,7 +6,7 @@
 #
 # see README file
 
-import os 
+import os
 import os.path
 import gtk
 import gedit
@@ -22,7 +22,7 @@ from mr_processo import *
 class CompileSource:
 
     def __init__(self, src):
-    
+
         self.src = src
 
 
@@ -31,10 +31,10 @@ class CompileSource:
 
         if self.src.get_lang() == "":
             return
-        
-        cmdC = src.pluginManager.textC.get_text()
-        cmdCpp = src.pluginManager.textCpp.get_text()
-        cmdPython = src.pluginManager.textPythonComp.get_text()
+
+        cmdC = configurations.compile_c
+        cmdCpp = configurations.compile_cpp
+        cmdPython = configurations.compile_python
 
         if self.src.is_lang_c():
             cmd = cmdC
@@ -45,21 +45,19 @@ class CompileSource:
         else:
             msgbox( "Compilar", "Não há suporte para o arquivo atual." )
             return
-            
+
         self.run_compiler( cmd )
 
 
 
     def run_compiler(self, cmd):
-    
+
         arq = os.path.basename( self.src.get_filename() )
-        
+
         p = CmdProcess()
         p.run_cmd_on_dir( cmd + " " + arq, self.src.get_dir() )
 
         self.erros = p.erros_gcc
         self.compilou_ok = p.return_code == 0
-    
-        self.compiler_process = p
 
-    
+        self.compiler_process = p

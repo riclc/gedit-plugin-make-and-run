@@ -437,18 +437,46 @@ Qual op&#xE7;&#xE3;o voc&#xEA; prefere?</property>
                                             <property name="visible">True</property>
                                             <property name="left_padding">16</property>
                                             <child>
-                                              <object class="GtkCheckButton" id="checkFecharAuto">
+                                              <object class="GtkVBox" id="vbox3">
                                                 <property name="visible">True</property>
-                                                <property name="can_focus">True</property>
-                                                <property name="receives_default">False</property>
-                                                <property name="active">True</property>
-                                                <property name="draw_indicator">True</property>
+                                                <property name="orientation">vertical</property>
                                                 <child>
-                                                  <object class="GtkLabel" id="label7">
+                                                  <object class="GtkCheckButton" id="checkFecharAuto">
                                                     <property name="visible">True</property>
-                                                    <property name="label" translatable="yes">&lt;small&gt;&lt;i&gt;Fechar a janela de execu&#xE7;&#xE3;o automaticamente ao terminar a aplica&#xE7;&#xE3;o&lt;/i&gt;&lt;/small&gt;</property>
-                                                    <property name="use_markup">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">False</property>
+                                                    <property name="active">True</property>
+                                                    <property name="draw_indicator">True</property>
+                                                    <child>
+                                                      <object class="GtkLabel" id="label7">
+                                                        <property name="visible">True</property>
+                                                        <property name="label" translatable="yes">&lt;small&gt;&lt;i&gt;Fechar a janela de execu&#xE7;&#xE3;o automaticamente ao terminar a aplica&#xE7;&#xE3;o&lt;/i&gt;&lt;/small&gt;</property>
+                                                        <property name="use_markup">True</property>
+                                                      </object>
+                                                    </child>
                                                   </object>
+                                                  <packing>
+                                                    <property name="position">0</property>
+                                                  </packing>
+                                                </child>
+                                                <child>
+                                                  <object class="GtkCheckButton" id="checkFecharAutoTime">
+                                                    <property name="visible">True</property>
+                                                    <property name="can_focus">True</property>
+                                                    <property name="receives_default">False</property>
+                                                    <property name="active">True</property>
+                                                    <property name="draw_indicator">True</property>
+                                                    <child>
+                                                      <object class="GtkLabel" id="label15">
+                                                        <property name="visible">True</property>
+                                                        <property name="label" translatable="yes">&lt;small&gt;&lt;i&gt;Fechar a janela de execu&#xE7;&#xE3;o se inativa por muito tempo&lt;/i&gt;&lt;/small&gt;</property>
+                                                        <property name="use_markup">True</property>
+                                                      </object>
+                                                    </child>
+                                                  </object>
+                                                  <packing>
+                                                    <property name="position">1</property>
+                                                  </packing>
                                                 </child>
                                               </object>
                                             </child>

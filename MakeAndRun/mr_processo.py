@@ -23,20 +23,20 @@ from mr_find_file_from_error import *
 class ErroGCC:
 
     def __init__(self):
-    
+
         self.arquivo = ""
         self.linha = -1
         self.msg = ""
-        
+
 
 
 class CmdProcess():
 
     def __init__(self):
-        
+
         builder = gtk.Builder()
         builder.add_from_file( GLADE_FILE_PROCESS )
-        
+
         self.windowProc = builder.get_object( "windowProc" )
         self.labelCmd = builder.get_object( "labelCmd" )
         self.labelDir = builder.get_object( "labelDir" )
@@ -49,23 +49,23 @@ class CmdProcess():
         self.scrollOutput = builder.get_object( "scrollOutput" )
         self.labelReturnCode = builder.get_object( "labelReturnCode" )
         self.labelReturnCode2 = builder.get_object( "labelReturnCode2" )
-        
+
         self.return_code = -1
-        self.erros_gcc = []        
+        self.erros_gcc = []
         self.processo = None
-        
+
         self.outputIter = self.bufferOutput.get_start_iter()
-        
+
         self.tag_fonte1 = self.bufferOutput.create_tag()
         self.tag_fonte1.set_property( "font", "Monospace 8" )
         self.tag_fonte2 = self.bufferOutput.create_tag()
         self.tag_fonte2.set_property( "font", "Monospace 8" )
         self.tag_fonte2.set_property( "foreground", "#ee0000" )
-        
-        
+
+
         self.btnClose.connect( "clicked", self.on_btnClose )
 
-        
+
     def run_cmd_on_dir(self, cmd, on_dir):
 
         self.labelCmd.set_markup( "<i><small>" + cmd + "</small></i>" )
@@ -78,7 +78,7 @@ class CmdProcess():
                 shell=True,
                 args = cmd,
                 stdout=PIPE,
-                stderr=STDOUT            
+                stderr=STDOUT
             )
         except:
             msgbox( "Erro de execução",
@@ -86,24 +86,24 @@ class CmdProcess():
 
         self.erros_gcc = []
         self.return_code = -1
-        self.cmd_executado = cmd        
-        
+        self.cmd_executado = cmd
+
         self.windowProc.show()
         self.fica_processando()
-        
-    
-    
+
+
+
     def on_btnClose(self, *args):
-    
+
         # supoe que o processo ja terminou.
-        
+
         self.windowProc.destroy()
-        
+
         #gtk.main_quit()
-        
-    
+
+
     def fica_processando(self):
-    
+
         # seta a flag "unblock" do descritor do arquivo,
         # usando a chamada fcntl do sistema operacional.
         #
@@ -111,24 +111,24 @@ class CmdProcess():
         #
         ####
 
-        while True:            
+        while True:
             if not self.processando():
                 break
-        
-    
+
+
     def processando(self, *args):
-        
-        self.progressBar.pulse()        
+
+        self.progressBar.pulse()
 
         # roda tb o thread dos signals do gtk/x11
         #
         while gtk.events_pending():
             gtk.main_iteration(False)
-            
+
         # espera um tempinho (senao a animacao da barra de progresso
         # fica MUITO rapida). esse tempinho eh simplesmente uma suspensao
         # temporaria do nosso proprio programa (bem leve)
-        # 
+        #
         time.sleep( 0.05 )
 
         try:
@@ -141,82 +141,82 @@ class CmdProcess():
             # nao tem nada pra ler) gera o ioerror 11.
             #
             msg = self.processo.stdout.readline()
-            
+
         except IOError, ioerr:
-            
+
             # Errno: 11 -> "Resource temporarily unavailable"
             #if ioerr.errno == 11:
-            
+
             msg = ''
-            
-            
+
+
 
         if msg == '':
             if self.processo.poll() != None:
 
                 # terminou o processo agora.
                 #
-                                
+
                 self.return_code = self.processo.returncode
-                
-                num = len( self.erros_gcc )                
+
+                num = len( self.erros_gcc )
                 if num > 0:
                     snum = "<span foreground='red'>" + str(num) + "</span>"
                 else:
                     snum = str(num)
-                
+
                 self.labelErros.set_markup( "<small><b>" + snum + "</b></small>" )
-                
-                
+
+
                 scode = str(self.return_code)
                 if self.return_code == 0:
                     scode2 = "<span foreground='blue'>" + scode + "</span>"
                 else:
                     scode2 = scode
-                
+
                 self.labelReturnCode.set_markup( "<small><b>" + \
                     scode2 + "</b></small>" )
-                    
+
                 self.labelReturnCode.set_sensitive( True )
                 self.labelReturnCode2.set_sensitive( True )
 
-                
+
                 self.progressBar.set_fraction( 1.0 )
                 self.windowProc.set_title( "Concluído" )
 
                 self.areaConclusao.show()
                 self.windowProc.set_focus( self.btnClose )
-                
+
                 # terminou, nao precisa mais ficar processando.
                 return False
-                
+
             else:
                 return True
 
 
         eg = self.erro_gcc_from_str( msg )
         if eg.linha == -1:
-        
+
             # nao eh uma mensagem tipica de erro do gcc.
             self.adiciona_log( msg, cor_erro = False )
-            
+
             return True
 
 
         # eh uma mensagem de erro valida do gcc!
         #
-        
+
         self.erros_gcc.append( eg )
         self.adiciona_log( msg, cor_erro = True )
 
-        
+
         # continua rodando de novo
         return True
 
 
 
     def adiciona_log(self, msg, cor_erro):
-        
+
         if not cor_erro:
             self.bufferOutput.insert_with_tags( \
                 self.outputIter, msg, self.tag_fonte1 )
@@ -226,20 +226,20 @@ class CmdProcess():
 
         v = self.scrollOutput.get_vadjustment()
         v.set_value( v.upper )
-        
+
         #final = self.bufferOutput.get_end_iter()
         #self.textOutput.scroll_to_iter( final, 0.0 )
-        
+
         # processa para que o texto/scroll sejam feitos adequadamente na gui.
         while gtk.events_pending():
             gtk.main_iteration(False)
-        
+
 
 
     def erro_gcc_from_str(self, s):
 
         eg = ErroGCC()
-    
+
         eg.arquivo = s[ : s.find(":") ]
         resto = s[ s.find(":")+1 : ]
 
@@ -247,23 +247,23 @@ class CmdProcess():
         resto = resto[ resto.find(":") + 1 : ]
 
         eg.msg = resto.strip()
-        
+
         try:
             eg.linha = int( s_linha )
         except:
             eg.linha = -1
-    
+
         return eg
 
 
 
     def mostra_erros(self, mr_plugin):
-    
+
         src = mr_plugin.src
         window = mr_plugin.window
         bottom = window.get_bottom_panel()
         storeOutput = mr_plugin.storeOutput
-        
+
         # limpa as marcas de erros atuais
         #
         src.remove_error()
@@ -271,64 +271,64 @@ class CmdProcess():
 
         # deu certo a compilacao/build/make?
         #
-        
+
         deu_certo = self.return_code == 0
         num_msgs = len( self.erros_gcc )
-        
+
         if deu_certo and num_msgs > 0:
             s_msgs = "mensagens" if num_msgs > 1 else "mensagem"
-            
+
             if msgbox( "Compilado com possíveis erros",
                 "<big><b>O arquivo foi compilado com sucesso</b></big>\n\n" +
-                
+
                 "Porém, o compilador gerou <b>" + str(num_msgs) + "</b> " +
                 s_msgs + ",\n" +
                 "provavelmente em relação a possíveis bugs.\n\n" +
 
                 "Você deseja exibir " + ("essas" if num_msgs > 1 else "essa") +
                 " " + s_msgs + "?",
-                
+
                 "question" ):
                     deu_certo = False
-        else:        
+        else:
             if num_msgs == 0:
-                
+
                 # apesar de nao ter dado return_code = 0, mas se nao
                 # tivemos nenhuma mensagem de erro do gcc, entao
                 # supoe que ta tranquilo. ja observei que isso de fato
                 # acontece em alguns make's com qt, por ex.
                 #
                 deu_certo = True
-        
+
 
         if deu_certo:
-        
+
             bottom.hide()
 
             status_msg = "Compilado com sucesso!"
             window.get_statusbar().flash_message( 0, status_msg )
-            
+
         else:
-        
+
             status_msg = "Projeto com erros"
             window.get_statusbar().flash_message( 0, status_msg )
 
-            for erro_gcc in self.erros_gcc:        
+            for erro_gcc in self.erros_gcc:
                 it = storeOutput.append()
                 storeOutput.set( it, 0, erro_gcc.arquivo )
                 storeOutput.set( it, 1, erro_gcc.linha )
                 storeOutput.set( it, 2, erro_gcc.msg )
-                        
-            
+
+
             # painel inferior - define tamanho
             #
-            if not src.pluginManager.checkPanelSizeIgnore.get_active():
-                
-                tam = int( src.pluginManager.textPanelSize.get_text() )
+            if not configurations.bottom_panel_size_ignore:
+
+                tam = int( configurations.bottom_panel_size )
                 vpan = bottom.get_parent()
                 vpan.set_position( vpan.allocation.height - tam )
-            
-            
+
+
             # mostra o painel inferior dos erros
             #
             bottom.show()
@@ -339,4 +339,3 @@ class CmdProcess():
             #
             it = mr_plugin.storeOutput.get_iter_first()
             find_file_from_error( mr_plugin, it, can_msgbox = False )
-
