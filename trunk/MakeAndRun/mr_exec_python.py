@@ -59,6 +59,11 @@ class PythonRun:
         self.textErr.modify_font( \
             pango.FontDescription( "Monospace Bold 8" ) )
 
+        self.mark_eof_output = self.bufferOutput.create_mark( "end", \
+            self.bufferOutput.get_end_iter(), left_gravity = False )
+        self.mark_eof_err = self.bufferErr.create_mark( "end", \
+            self.bufferErr.get_end_iter(), left_gravity = False )
+
         self.btnCancel.connect( "clicked", self.on_cancel )
         self.btnClose.connect( "clicked", self.on_close )
         self.windowRunning.connect( "delete-event", self.on_window_close )
@@ -104,23 +109,32 @@ class PythonRun:
         stdout_ok = False
         stderr_ok = False
 
+        msg1 = ''
         try:
             msg1 = self.processo.stdout.readline()
         except IOError, ioerr:
-            msg1 = ''
+            pass
 
         if msg1 <> '':
             stdout_ok = True
             self.bufferOutput.insert( self.bufferOutput.get_end_iter(), msg1 )
+            self.textOutput.scroll_to_mark( self.mark_eof_output, \
+                within_margin = 0.05, \
+                use_align = True, xalign = 0.0, yalign = 1.0 )
 
+
+        msg2 = ''
         try:
             msg2 = self.processo.stderr.readline()
         except IOError, ioerr:
-            msg2 = ''
+            pass
 
         if msg2 <> '':
             stderr_ok = True
             self.bufferErr.insert( self.bufferErr.get_end_iter(), msg2 )
+            self.textErr.scroll_to_mark( self.mark_eof_err, \
+                within_margin = 0.05, \
+                use_align = True, xalign = 0.0, yalign = 1.0 )
 
 
         self.gtk_do()

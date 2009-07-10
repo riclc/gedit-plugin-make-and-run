@@ -13,6 +13,7 @@ import gedit
 
 from mr_msgbox import *
 from mr_doc_error import *
+from mr_globals import *
 
 
 
