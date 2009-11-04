@@ -59,6 +59,7 @@ class MakeAndRunManager(gedit.Plugin):
         self.textPanelSize = builder.get_object( "textPanelSize" )
         self.checkPanelSizeIgnore = builder.get_object( "checkPanelSizeIgnore" )
         self.checkShowTerminal = builder.get_object( "checkShowTerminal" )
+        self.checkShowWarnings = builder.get_object( "checkShowWarnings" )
         self.checkFecharAuto = builder.get_object( "checkFecharAuto" )
         self.checkFecharAutoTime = builder.get_object( "checkFecharAutoTime" )
 
@@ -105,6 +106,7 @@ class MakeAndRunManager(gedit.Plugin):
 
         self.textMakeExec.set_text( configurations.cmd_make_exec )
         self.checkShowTerminal.set_active( configurations.show_terminal )
+        self.checkShowWarnings.set_active( configurations.show_warnings )
         self.radioPythonMake.set_active( configurations.run_python_thru_make_exec )
         self.radioPythonInterp.set_active( not configurations.run_python_thru_make_exec )
         self.checkFecharAuto.set_active( configurations.run_python_auto_close_window )
@@ -122,6 +124,7 @@ class MakeAndRunManager(gedit.Plugin):
 
         configurations.cmd_make_exec = self.textMakeExec.get_text()
         configurations.show_terminal = self.checkShowTerminal.get_active()
+        configurations.show_warnings = self.checkShowWarnings.get_active()
         configurations.run_python_thru_make_exec = self.radioPythonMake.get_active()
         configurations.run_python_auto_close_window = self.checkFecharAuto.get_active()
         configurations.run_python_auto_close_window_by_time = self.checkFecharAutoTime.get_active()
