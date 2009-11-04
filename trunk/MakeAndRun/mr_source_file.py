@@ -10,6 +10,7 @@ import os
 import os.path
 import gtk
 import gedit
+import gio
 
 from mr_msgbox import *
 from mr_doc_error import *
@@ -38,7 +39,8 @@ class SourceFile:
 
         filename = self.doc.get_uri()
         if filename != "":
-            filename = filename.replace( "file://", "" )
+	    filename = gio.File( filename ).get_path()
+            #filename = filename.replace( "file://", "" )
 
         return filename
 
