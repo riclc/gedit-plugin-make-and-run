@@ -20,44 +20,64 @@ from mr_processo import *
 
 
 
-makefile_cpp = """
-OBJETOS = $(FONTES:.cpp=.o)
-COMPILADOR = g++
-
-all: $(FONTES) $(PROGRAMA)
-
-$(PROGRAMA): $(OBJETOS)
-\t$(COMPILADOR) $(LDFLAGS) $(OBJETOS) -o $@
-
-.cpp.o:
-\t$(COMPILADOR) $(CFLAGS) $< -o $@
-
-clean:
-\trm -rfv *.o $(PROGRAMA)
-
-exec:
-\t./$(PROGRAMA)
-"""
-
-
-makefile_c = """
+makefile_1_c = """
 OBJETOS = $(FONTES:.c=.o)
 COMPILADOR = gcc
+"""
 
+makefile_1_cpp = """
+OBJETOS = $(FONTES:.cpp=.o)
+COMPILADOR = g++
+"""
+
+
+makefile_1_c_mpi = """
+NUM_OF_P = 2
+
+OBJETOS = $(FONTES:.c=.o)
+COMPILADOR = mpicc
+"""
+
+makefile_1_cpp_mpi = """
+NUM_OF_P = 2
+
+OBJETOS = $(FONTES:.cpp=.o)
+COMPILADOR = mpic++
+"""
+
+
+makefile_2_common = """
 all: $(FONTES) $(PROGRAMA)
 
 $(PROGRAMA): $(OBJETOS)
 \t$(COMPILADOR) $(LDFLAGS) $(OBJETOS) -o $@
+"""
 
-.c.o:
+makefile_3_c = """
+.c.o:"""
+
+makefile_3_cpp = """
+.cpp.o:"""
+
+    
+makefile_4_common = """
 \t$(COMPILADOR) $(CFLAGS) $< -o $@
 
 clean:
 \trm -rfv *.o $(PROGRAMA)
+"""
 
+
+makefile_5_default = """
 exec:
 \t./$(PROGRAMA)
 """
+
+makefile_5_mpi = """
+exec:
+\tmpirun -n $(NUM_OF_P) $(PROGRAMA)
+"""
+
 
 
 
@@ -125,6 +145,9 @@ class MakefileManager:
         self.checkOpenGL = builder.get_object( "checkOpenGL" )
         self.checkX11 = builder.get_object( "checkX11" )
         self.textLibs = builder.get_object( "textLibs" )
+        self.checkOpenMP = builder.get_object( "checkOpenMP" )
+        self.checkOpenMPI = builder.get_object( "checkOpenMPI" )
+
 
         # ajeita a figura
         #
@@ -195,6 +218,8 @@ class MakefileManager:
             self.use_cflags += " -Wall "
         if self.checkO2.get_active():
             self.use_cflags += " -O2 "
+        if self.checkOpenMP.get_active():
+            self.use_cflags += " -fopenmp"
 
         # pega os parametros de ldflags
         #
@@ -205,6 +230,9 @@ class MakefileManager:
             self.use_ldflags += " -lglut -lGL -lGLU "
         if self.checkX11.get_active():
             self.use_ldflags += " -lXmu -lXi -lXext -lX11 "
+        if self.checkOpenMP.get_active():
+            self.use_ldflags += " -fopenmp"
+
         self.use_ldflags += " " + self.textLibs.get_text()
 
 
@@ -267,20 +295,60 @@ class MakefileManager:
         prog = self.textPrograma.get_text()
 
         f = open( makefile, "w" )
+        
+        # parte basica inicial
+        #
+        
         f.write( "PROGRAMA = " + prog + "\n" )
         f.write( "FONTES = " + self.fontes_marcados + "\n" )
 
         f.write( "\n" )
         f.write( "CFLAGS = " + self.use_cflags + "\n" )
         f.write( "LDFLAGS = " + self.use_ldflags + "\n" )
-        f.write( "\n" )
 
-        if self.usando_c:
-            f.write( makefile_c )
+        
+        # parte 1
+        #
+        
+        if self.checkOpenMPI.get_active():
+            if self.usando_c:
+                f.write( makefile_1_c_mpi )
+            else:
+                f.write( makefile_1_cpp_mpi )
         else:
-            f.write( makefile_cpp )
+            if self.usando_c:
+                f.write( makefile_1_c )
+            else:
+                f.write( makefile_1_cpp )
+
+        # parte 2
+        #        
+        f.write( makefile_2_common )
+        
+        
+        # parte 3
+        #
+        if self.usando_c:
+            f.write( makefile_3_c )
+        else:
+            f.write( makefile_3_cpp )
+        
+        
+        # parte 4
+        #        
+        f.write( makefile_4_common )
+        
+        
+        # parte 5
+        #
+        if self.checkOpenMPI.get_active():
+            f.write( makefile_5_mpi )
+        else:
+            f.write( makefile_5_default )
+            
 
         f.close()
+
 
 
 

@@ -483,6 +483,42 @@ arquivo Makefile ser&#xE1; criado para voc&#xEA;.</property>
                               </packing>
                             </child>
                             <child>
+                              <object class="GtkCheckButton" id="checkOpenMP">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="draw_indicator">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="label18">
+                                    <property name="visible">True</property>
+                                    <property name="label" translatable="yes">&lt;i&gt;&lt;small&gt;OpenMP &lt;b&gt;&lt;span foreground='#88aabb'&gt;-fopenmp&lt;/span&gt;&lt;/b&gt;&lt;/small&gt;&lt;/i&gt;</property>
+                                    <property name="use_markup">True</property>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="position">3</property>
+                              </packing>
+                            </child>
+                            <child>
+                              <object class="GtkCheckButton" id="checkOpenMPI">
+                                <property name="visible">True</property>
+                                <property name="can_focus">True</property>
+                                <property name="receives_default">False</property>
+                                <property name="draw_indicator">True</property>
+                                <child>
+                                  <object class="GtkLabel" id="label19">
+                                    <property name="visible">True</property>
+                                    <property name="label" translatable="yes">&lt;i&gt;&lt;small&gt;OpenMPI &lt;span foreground='#88aabb'&gt;Compilador &lt;b&gt;mpicc&lt;/b&gt;&lt;/span&gt;&lt;/small&gt;&lt;/i&gt;</property>
+                                    <property name="use_markup">True</property>
+                                  </object>
+                                </child>
+                              </object>
+                              <packing>
+                                <property name="position">4</property>
+                              </packing>
+                            </child>
+                            <child>
                               <object class="GtkLabel" id="label12">
                                 <property name="visible">True</property>
                                 <property name="xalign">0</property>
@@ -491,7 +527,7 @@ arquivo Makefile ser&#xE1; criado para voc&#xEA;.</property>
                                 <property name="use_markup">True</property>
                               </object>
                               <packing>
-                                <property name="position">3</property>
+                                <property name="position">5</property>
                               </packing>
                             </child>
                             <child>
@@ -501,7 +537,7 @@ arquivo Makefile ser&#xE1; criado para voc&#xEA;.</property>
                                 <property name="invisible_char">&#x25CF;</property>
                               </object>
                               <packing>
-                                <property name="position">4</property>
+                                <property name="position">6</property>
                               </packing>
                             </child>
                           </object>
@@ -548,7 +584,7 @@ arquivo Makefile ser&#xE1; criado para voc&#xEA;.</property>
             </child>
             <child>
               <object class="GtkButton" id="btnCancelar">
-                <property name="label" translatable="yes">gtk-cancel</property>
+                <property name="label">gtk-cancel</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -561,7 +597,7 @@ arquivo Makefile ser&#xE1; criado para voc&#xEA;.</property>
             </child>
             <child>
               <object class="GtkButton" id="btnOK">
-                <property name="label" translatable="yes">gtk-ok</property>
+                <property name="label">gtk-ok</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
