@@ -42,11 +42,10 @@
         <property name="spacing">6</property>
         <child>
           <object class="GtkButton" id="btnClear">
-            <property name="label" translatable="yes">gtk-clear</property>
+            <property name="label" translatable="yes">Clear Errors</property>
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <property name="receives_default">True</property>
-            <property name="use_stock">True</property>
           </object>
           <packing>
             <property name="expand">False</property>
