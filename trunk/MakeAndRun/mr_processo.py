@@ -275,21 +275,22 @@ class CmdProcess():
         deu_certo = self.return_code == 0
         num_msgs = len( self.erros_gcc )
 
-        if deu_certo and num_msgs > 0:
+        if deu_certo and num_msgs > 0 and configurations.show_warnings:
             s_msgs = "mensagens" if num_msgs > 1 else "mensagem"
 
+            self.on_btnClose()
+            
             if msgbox( "Compilado com possíveis erros",
                 "<big><b>O arquivo foi compilado com sucesso</b></big>\n\n" +
-
                 "Porém, o compilador gerou <b>" + str(num_msgs) + "</b> " +
                 s_msgs + ",\n" +
                 "provavelmente em relação a possíveis bugs.\n\n" +
-
                 "Você deseja exibir " + ("essas" if num_msgs > 1 else "essa") +
                 " " + s_msgs + "?",
-
                 "question" ):
+                    
                     deu_certo = False
+                    
         else:
             if num_msgs == 0:
 
