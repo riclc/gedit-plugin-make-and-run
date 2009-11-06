@@ -90,23 +90,35 @@ class MakefileManager:
         self.src = src
 
 
-    def makefile_from_src(self):
+    def makefile_candidates_from_src(self):
 
-        makefile = os.path.join( self.src.get_dir(), "Makefile" )
-        return makefile
+	    arqs = [ "Makefile", "makefile" ]
+	    for i in range( len(arqs) ):
+		    arqs[i] = os.path.join( self.src.get_dir(), arqs[i] )
+		
+            return arqs
 
 
-    def makefile_exists(self):
+    def default_makefile_from_src(self):
 
-        makefile = self.makefile_from_src()
-        return os.path.exists( makefile )
+    	return self.makefile_candidates_from_src()[0]
+
+
+    def any_makefile_exists(self):
+
+	    arqs = self.makefile_candidates_from_src()
+	    for arq in arqs:
+		    if os.path.exists( arq ):
+			    return True
+	
+	    return False
 
 
     def make_build(self, mrplugin):
 
         self.mrplugin = mrplugin
 
-        if self.makefile_exists():
+        if self.any_makefile_exists():
             self.makefile_run()
         else:
             self.show_dlg_makefile()
@@ -289,7 +301,7 @@ class MakefileManager:
 
     def makefile_generate(self):
 
-        makefile = self.makefile_from_src()
+        makefile = self.default_makefile_from_src()
         mdir = self.src.get_dir()
 
         prog = self.textPrograma.get_text()
@@ -397,7 +409,7 @@ class MakefileManager:
 
         # o arquivo makefile existe?
 
-        if self.makefile_exists():
+        if self.any_makefile_exists():
             roda_cmd_on_dir( cmd, self.src.get_dir() )
             return
 
@@ -417,7 +429,7 @@ class MakefileManager:
 
         # o arquivo makefile existe?
 
-        if self.makefile_exists():
+        if self.any_makefile_exists():
 
             p = CmdProcess()
             p.run_cmd_on_dir( "make clean", self.src.get_dir() )
