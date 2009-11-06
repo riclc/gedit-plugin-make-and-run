@@ -64,7 +64,7 @@ makefile_4_common = """
 \t$(COMPILADOR) $(CFLAGS) $< -o $@
 
 clean:
-\trm -rfv *.o $(PROGRAMA)
+\trm -rfv *.o $(PROGRAMA) 
 """
 
 
@@ -76,6 +76,13 @@ exec:
 makefile_5_mpi = """
 exec:
 \tmpirun -n $(NUM_OF_P) $(PROGRAMA)
+"""
+
+
+makefile_6_profiling = """
+profile: exec	
+\tgprof $(PROGRAMA) | gprof2dot.py | dot -Tpng -o gprof_profile.png
+\teog gprof_profile.png
 """
 
 
@@ -147,18 +154,24 @@ class MakefileManager:
         self.btnCancelar = builder.get_object( "btnCancelar" )
         self.btnAdiciona = builder.get_object( "btnAdiciona" )
         self.btnRemove = builder.get_object( "btnRemove" )
+        self.btnAdicionaTodos = builder.get_object( "btnAdicionaTodos" )
+        self.btnRemoveTodos = builder.get_object( "btnRemoveTodos" )
         self.listArquivos1 = builder.get_object( "listArquivos1" )
         self.listArquivos2 = builder.get_object( "listArquivos2" )
         self.storeArquivos1 = builder.get_object( "storeArquivos1" )
         self.storeArquivos2 = builder.get_object( "storeArquivos2" )
+        
         self.checkWall = builder.get_object( "checkWall" )
         self.checkO2 = builder.get_object( "checkO2" )
         self.checkMath = builder.get_object( "checkMath" )
         self.checkOpenGL = builder.get_object( "checkOpenGL" )
         self.checkX11 = builder.get_object( "checkX11" )
-        self.textLibs = builder.get_object( "textLibs" )
         self.checkOpenMP = builder.get_object( "checkOpenMP" )
         self.checkOpenMPI = builder.get_object( "checkOpenMPI" )
+        self.checkDebug = builder.get_object( "checkDebug" )
+        self.checkProfiling = builder.get_object( "checkProfiling" )
+        self.textLDFLAGS = builder.get_object( "textLDFLAGS" )
+        self.textCFLAGS = builder.get_object( "textCFLAGS" )
 
 
         # ajeita a figura
@@ -179,11 +192,13 @@ class MakefileManager:
         #
         ####
 
+        self.windowMakefile.connect( "delete-event", self.on_dlg_makefile_cancel )
         self.btnOK.connect( "clicked", self.on_dlg_makefile_ok )
         self.btnCancelar.connect( "clicked", self.on_dlg_makefile_cancel )
-        self.windowMakefile.connect( "delete-event", self.on_dlg_makefile_cancel )
         self.btnAdiciona.connect( "clicked", self.on_dlg_makefile_add )
         self.btnRemove.connect( "clicked", self.on_dlg_makefile_del )
+        self.btnAdicionaTodos.connect( "clicked", self.on_dlg_makefile_add_all )
+        self.btnRemoveTodos.connect( "clicked", self.on_dlg_makefile_del_all )
 
         # tenta adivinhar o nome do projeto com base no codigo atual
         #
@@ -198,9 +213,9 @@ class MakefileManager:
         #
         self.usando_c = arq_ext.lower() == '.c'
 
-        fontes = self.makefile_get_fontes( arq_ext )
+        self.fontes = self.makefile_get_fontes( arq_ext )
 
-        for f in fontes:
+        for f in self.fontes:
 
             # ja deixa o arquivo atual na lista de arquivos 1, claro.
             if f == arq_sem_dir:
@@ -231,7 +246,14 @@ class MakefileManager:
         if self.checkO2.get_active():
             self.use_cflags += " -O2 "
         if self.checkOpenMP.get_active():
-            self.use_cflags += " -fopenmp"
+            self.use_cflags += " -fopenmp"      # em LDFLAGS tambem
+        if self.checkDebug.get_active():
+            self.use_cflags += " -g"
+        if self.checkProfiling.get_active():
+            self.use_cflags += " -pg"           # em LDFLAGS tambem
+        
+        self.use_cflags += " " + self.textCFLAGS.get_text()
+        
 
         # pega os parametros de ldflags
         #
@@ -243,9 +265,11 @@ class MakefileManager:
         if self.checkX11.get_active():
             self.use_ldflags += " -lXmu -lXi -lXext -lX11 "
         if self.checkOpenMP.get_active():
-            self.use_ldflags += " -fopenmp"
+            self.use_ldflags += " -fopenmp"     # em CFLAGS tambem
+        if self.checkProfiling.get_active():
+            self.use_ldflags += " -pg"          # em CFLAGS tambem
 
-        self.use_ldflags += " " + self.textLibs.get_text()
+        self.use_ldflags += " " + self.textLDFLAGS.get_text()
 
 
         # fecha a janela
@@ -297,6 +321,30 @@ class MakefileManager:
         # adiciona em 'arquivos 2'
         it = self.storeArquivos2.append()
         self.storeArquivos2.set_value( it, 0, arq )
+
+
+    def on_dlg_makefile_add_all(self, *args):
+
+        # remove tudo de 'arquivos 1' e 'arquivos 2'
+        self.storeArquivos1.clear()
+        self.storeArquivos2.clear()
+        
+        # adiciona cada arquivo-fonte em 'arquivos 1'        
+        for f in self.fontes:
+            it = self.storeArquivos1.append()
+            self.storeArquivos1.set( it, 0, f )
+
+
+    def on_dlg_makefile_del_all(self, *args):
+
+        # remove tudo de 'arquivos 1' e 'arquivos 2'
+        self.storeArquivos1.clear()
+        self.storeArquivos2.clear()
+        
+        # adiciona cada arquivo-fonte em 'arquivos 2'        
+        for f in self.fontes:
+            it = self.storeArquivos2.append()
+            self.storeArquivos2.set( it, 0, f )
 
 
     def makefile_generate(self):
@@ -357,6 +405,12 @@ class MakefileManager:
             f.write( makefile_5_mpi )
         else:
             f.write( makefile_5_default )
+            
+        
+        # parte 6 (opcional)
+        #
+        if self.checkProfiling.get_active():
+            f.write( makefile_6_profiling )
             
 
         f.close()
