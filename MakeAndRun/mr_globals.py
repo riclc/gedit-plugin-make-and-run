@@ -34,7 +34,9 @@ class configurations:
 
     cmd_make_exec                        = "exec"
     show_terminal                        = True
-    show_warnings			 = False
+    show_warnings			             = False
+    make_auto_close_window               = True
+    
     run_python_thru_make_exec            = False
     run_python_auto_close_window         = True
     run_python_auto_close_window_by_time = True
@@ -63,6 +65,8 @@ class configurations:
                 GCONF_DIR + "show_terminal" ).get_bool()
             configurations.show_warnings = gclient.get( \
                 GCONF_DIR + "show_warnings" ).get_bool()
+            configurations.make_auto_close_window = gclient.get( \
+                GCONF_DIR + "make_auto_close_window" ).get_bool()
             configurations.run_python_thru_make_exec = gclient.get( \
                 GCONF_DIR + "run_python_thru_make_exec" ).get_bool()
             configurations.run_python_auto_close_window = gclient.get( \
@@ -97,7 +101,10 @@ class configurations:
         gclient.set_bool( GCONF_DIR + "show_terminal", \
             configurations.show_terminal )
         gclient.set_bool( GCONF_DIR + "show_warnings", \
-            configurations.show_warnings )
+            configurations.show_warnings )        
+        gclient.set_bool( GCONF_DIR + "make_auto_close_window", \
+            configurations.make_auto_close_window )
+            
         gclient.set_bool( GCONF_DIR + "run_python_thru_make_exec", \
             configurations.run_python_thru_make_exec )
         gclient.set_bool( GCONF_DIR + "run_python_auto_close_window", \
@@ -109,3 +116,4 @@ class configurations:
             configurations.bottom_panel_size )
         gclient.set_bool( GCONF_DIR + "bottom_panel_size_ignore", \
             configurations.bottom_panel_size_ignore )
+        
