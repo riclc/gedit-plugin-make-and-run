@@ -103,6 +103,17 @@
           </packing>
         </child>
         <child>
+          <object class="GtkLabel" id="labelOK">
+            <property name="label" translatable="yes">&lt;span background='#448833' foreground='#77ff77'&gt;&lt;big&gt;&lt;big&gt;&lt;big&gt;&lt;b&gt;      OK!      &lt;/b&gt;&lt;/big&gt;&lt;/big&gt;&lt;/big&gt;&lt;/span&gt;</property>
+            <property name="use_markup">True</property>
+          </object>
+          <packing>
+            <property name="expand">False</property>
+            <property name="fill">False</property>
+            <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
           <object class="GtkProgressBar" id="progressBar">
             <property name="visible">True</property>
             <property name="activity_mode">True</property>
@@ -110,7 +121,7 @@
           </object>
           <packing>
             <property name="expand">False</property>
-            <property name="position">1</property>
+            <property name="position">2</property>
           </packing>
         </child>
         <child>
@@ -207,7 +218,7 @@
             </child>
           </object>
           <packing>
-            <property name="position">2</property>
+            <property name="position">3</property>
           </packing>
         </child>
         <child>
@@ -281,7 +292,7 @@
             </child>
             <child>
               <object class="GtkButton" id="btnClose">
-                <property name="label" translatable="yes">gtk-close</property>
+                <property name="label">gtk-close</property>
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="receives_default">True</property>
@@ -295,7 +306,7 @@
           </object>
           <packing>
             <property name="expand">False</property>
-            <property name="position">3</property>
+            <property name="position">4</property>
           </packing>
         </child>
       </object>

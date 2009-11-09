@@ -8,6 +8,7 @@
 
 import gtk
 import gobject
+import glib
 
 import os
 import os.path
@@ -49,6 +50,7 @@ class CmdProcess():
         self.scrollOutput = builder.get_object( "scrollOutput" )
         self.labelReturnCode = builder.get_object( "labelReturnCode" )
         self.labelReturnCode2 = builder.get_object( "labelReturnCode2" )
+        self.labelOK = builder.get_object( "labelOK" )
 
         self.return_code = -1
         self.erros_gcc = []
@@ -308,6 +310,9 @@ class CmdProcess():
 
             status_msg = "Compilado com sucesso!"
             window.get_statusbar().flash_message( 0, status_msg )
+            
+            if configurations.make_auto_close_window:
+                self.start_auto_close()
 
         else:
 
@@ -340,3 +345,23 @@ class CmdProcess():
             #
             it = mr_plugin.storeOutput.get_iter_first()
             find_file_from_error( mr_plugin, it, can_msgbox = False )
+    
+
+    def start_auto_close(self):
+             
+        self.labelOK.show()
+        
+        self.auto_close_animation_i = 0.0
+        glib.timeout_add( 20, self.on_auto_close_animation_timer )
+    
+    
+    def on_auto_close_animation_timer(self):
+
+        self.labelOK.props.xalign = self.auto_close_animation_i
+        self.auto_close_animation_i += 0.03
+        
+        if self.auto_close_animation_i >= 1.0:
+            self.on_btnClose()
+            return False
+        else:        
+            return True
