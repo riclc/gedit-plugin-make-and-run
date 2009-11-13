@@ -50,7 +50,8 @@ class CmdProcess():
         self.scrollOutput = builder.get_object( "scrollOutput" )
         self.labelReturnCode = builder.get_object( "labelReturnCode" )
         self.labelReturnCode2 = builder.get_object( "labelReturnCode2" )
-        self.labelOK = builder.get_object( "labelOK" )
+        self.imgResult = builder.get_object( "imgResult" )
+        self.labelConcluded = builder.get_object( "labelConcluded" )
 
         self.return_code = -1
         self.erros_gcc = []
@@ -294,7 +295,7 @@ class CmdProcess():
                     deu_certo = False
                     
         else:
-            if num_msgs == 0:
+            if num_msgs == 0 and self.return_code != 2:
 
                 # apesar de nao ter dado return_code = 0, mas se nao
                 # tivemos nenhuma mensagem de erro do gcc, entao
@@ -310,8 +311,10 @@ class CmdProcess():
 
             status_msg = "Compilado com sucesso!"
             window.get_statusbar().flash_message( 0, status_msg )
-            
+
             if configurations.make_auto_close_window:
+                self.imgResult.set_from_file( IMG_RESULT_OK )
+                self.imgResult.show()
                 self.start_auto_close()
 
         else:
@@ -319,49 +322,64 @@ class CmdProcess():
             status_msg = "Projeto com erros"
             window.get_statusbar().flash_message( 0, status_msg )
 
-            for erro_gcc in self.erros_gcc:
-                it = storeOutput.append()
-                storeOutput.set( it, 0, erro_gcc.arquivo )
-                storeOutput.set( it, 1, erro_gcc.linha )
-                storeOutput.set( it, 2, erro_gcc.msg )
 
-
-            # painel inferior - define tamanho
+            
+            # conseguimos fazer o parsing de um ou mais erros do gcc?
             #
-            if not configurations.bottom_panel_size_ignore:
+            if len( self.erros_gcc ) > 0:
+                
+                for erro_gcc in self.erros_gcc:
+                    it = storeOutput.append()
+                    storeOutput.set( it, 0, erro_gcc.arquivo )
+                    storeOutput.set( it, 1, erro_gcc.linha )
+                    storeOutput.set( it, 2, erro_gcc.msg )
 
-                tam = int( configurations.bottom_panel_size )
-                vpan = bottom.get_parent()
-                vpan.set_position( vpan.allocation.height - tam )
+                # manda sumir essa janela para o programador se concentrar na
+                # lista de erros mostrada no painel inferior.
+                #
+                if configurations.make_auto_close_window:
+                    self.imgResult.set_from_file( IMG_RESULT_ERROR )
+                    self.imgResult.show()
+                    self.start_auto_close()
+
+            
+                # painel inferior - define tamanho e depois mostra
+                #
+                
+                if not configurations.bottom_panel_size_ignore:
+
+                    tam = int( configurations.bottom_panel_size )
+                    vpan = bottom.get_parent()
+                    vpan.set_position( vpan.allocation.height - tam )
+
+                bottom.show()
+                bottom.activate_item( mr_plugin.area )
+
+                # marca o primeiro erro (caso seja o mesmo arquivo atual)
+                #
+                it = mr_plugin.storeOutput.get_iter_first()
+                find_file_from_error( mr_plugin, it, can_msgbox = False )
+
+            
+            else:
+                
+                self.labelConcluded.set_markup( \
+                    "<small>Comando concluído com <b>problemas</b>. " + \
+                    "Verifique o log!</small>" )
+
+            
 
 
-            # mostra o painel inferior dos erros
-            #
-            bottom.show()
-            bottom.activate_item( mr_plugin.area )
 
-
-            # marca o primeiro erro (caso seja o mesmo arquivo atual)
-            #
-            it = mr_plugin.storeOutput.get_iter_first()
-            find_file_from_error( mr_plugin, it, can_msgbox = False )
     
 
     def start_auto_close(self):
-             
-        self.labelOK.show()
         
-        self.auto_close_animation_i = 0.0
-        glib.timeout_add( 20, self.on_auto_close_animation_timer )
+        glib.timeout_add( 1380, self.on_auto_close_animation_timer )
     
-    
+        
     def on_auto_close_animation_timer(self):
 
-        self.labelOK.props.xalign = self.auto_close_animation_i
-        self.auto_close_animation_i += 0.03
-        
-        if self.auto_close_animation_i >= 1.0:
-            self.on_btnClose()
-            return False
-        else:        
-            return True
+        self.on_btnClose()
+        return False
+
