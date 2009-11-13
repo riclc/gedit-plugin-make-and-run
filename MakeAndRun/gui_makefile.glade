@@ -482,7 +482,7 @@ arquivo Makefile ser&#xE1; criado para voc&#xEA;.</property>
                     </child>
                     <child>
                       <object class="GtkVSeparator" id="vseparator1">
-                        <property name="width_request">8</property>
+                        <property name="width_request">12</property>
                         <property name="visible">True</property>
                         <property name="orientation">vertical</property>
                       </object>
@@ -493,7 +493,7 @@ arquivo Makefile ser&#xE1; criado para voc&#xEA;.</property>
                     </child>
                     <child>
                       <object class="GtkVSeparator" id="vseparator2">
-                        <property name="width_request">8</property>
+                        <property name="width_request">12</property>
                         <property name="visible">True</property>
                         <property name="orientation">vertical</property>
                       </object>
@@ -566,6 +566,24 @@ arquivo Makefile ser&#xE1; criado para voc&#xEA;.</property>
                                   </packing>
                                 </child>
                                 <child>
+                                  <object class="GtkCheckButton" id="checkGLEW">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="draw_indicator">True</property>
+                                    <child>
+                                      <object class="GtkLabel" id="label23">
+                                        <property name="visible">True</property>
+                                        <property name="label" translatable="yes">&lt;i&gt;&lt;small&gt;OpenGL Extensions &lt;b&gt;&lt;span foreground='#88aabb'&gt;-lGLEW&lt;/span&gt;&lt;/b&gt;&lt;/small&gt;&lt;/i&gt;</property>
+                                        <property name="use_markup">True</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="position">2</property>
+                                  </packing>
+                                </child>
+                                <child>
                                   <object class="GtkCheckButton" id="checkX11">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
@@ -580,7 +598,7 @@ arquivo Makefile ser&#xE1; criado para voc&#xEA;.</property>
                                     </child>
                                   </object>
                                   <packing>
-                                    <property name="position">2</property>
+                                    <property name="position">3</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -598,7 +616,7 @@ arquivo Makefile ser&#xE1; criado para voc&#xEA;.</property>
                                     </child>
                                   </object>
                                   <packing>
-                                    <property name="position">3</property>
+                                    <property name="position">4</property>
                                   </packing>
                                 </child>
                                 <child>
@@ -616,7 +634,7 @@ arquivo Makefile ser&#xE1; criado para voc&#xEA;.</property>
                                     </child>
                                   </object>
                                   <packing>
-                                    <property name="position">4</property>
+                                    <property name="position">5</property>
                                   </packing>
                                 </child>
                               </object>

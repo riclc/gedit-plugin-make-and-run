@@ -50,7 +50,7 @@ makefile_2_common = """
 all: $(FONTES) $(PROGRAMA)
 
 $(PROGRAMA): $(OBJETOS)
-\t$(COMPILADOR) $(LDFLAGS) $(OBJETOS) -o $@
+\t$(COMPILADOR) $(OBJETOS) $(LDFLAGS) -o $@
 """
 
 makefile_3_c = """
@@ -165,6 +165,7 @@ class MakefileManager:
         self.checkO2 = builder.get_object( "checkO2" )
         self.checkMath = builder.get_object( "checkMath" )
         self.checkOpenGL = builder.get_object( "checkOpenGL" )
+        self.checkGLEW = builder.get_object( "checkGLEW" )
         self.checkX11 = builder.get_object( "checkX11" )
         self.checkOpenMP = builder.get_object( "checkOpenMP" )
         self.checkOpenMPI = builder.get_object( "checkOpenMPI" )
@@ -262,6 +263,8 @@ class MakefileManager:
             self.use_ldflags += " -lm "
         if self.checkOpenGL.get_active():
             self.use_ldflags += " -lglut -lGL -lGLU "
+        if self.checkGLEW.get_active():
+            self.use_ldflags += " -lGLEW "
         if self.checkX11.get_active():
             self.use_ldflags += " -lXmu -lXi -lXext -lX11 "
         if self.checkOpenMP.get_active():
