@@ -23,6 +23,10 @@ IMG_GEDIT = os.path.join( os.path.dirname( __file__ ), "imgs", "iconGedit.png" )
 IMG_MAKE = os.path.join( os.path.dirname( __file__ ), "imgs", "iconMake.png" )
 IMG_PYTHON_BIG = os.path.join( os.path.dirname( __file__ ), "imgs", "iconPythonBig.png" )
 
+IMG_RESULT_OK = os.path.join( os.path.dirname( __file__ ), "imgs", "animOK.gif" )
+IMG_RESULT_ERROR = os.path.join( os.path.dirname( __file__ ), "imgs", "animError.gif" )
+
+
 GCONF_DIR = "/apps/gedit-2/plugins/make-and-run/"
 
 

@@ -49,7 +49,7 @@
                   <object class="GtkLabel" id="labelCmd">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
-                    <property name="label" translatable="yes">&lt;i&gt;&lt;small&gt;make&lt;/small&gt;&lt;/i&gt;</property>
+                    <property name="label" translatable="yes">&lt;i&gt;make&lt;/i&gt;</property>
                     <property name="use_markup">True</property>
                   </object>
                   <packing>
@@ -81,7 +81,7 @@
                   <object class="GtkLabel" id="labelDir">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
-                    <property name="label" translatable="yes">&lt;i&gt;&lt;small&gt;/home/ric/&lt;/small&gt;&lt;/i&gt;</property>
+                    <property name="label" translatable="yes">&lt;i&gt;/home/ric/&lt;/i&gt;</property>
                     <property name="use_markup">True</property>
                   </object>
                   <packing>
@@ -103,14 +103,20 @@
           </packing>
         </child>
         <child>
-          <object class="GtkLabel" id="labelOK">
-            <property name="label" translatable="yes">&lt;span background='#448833' foreground='#77ff77'&gt;&lt;big&gt;&lt;big&gt;&lt;big&gt;&lt;b&gt;      OK!      &lt;/b&gt;&lt;/big&gt;&lt;/big&gt;&lt;/big&gt;&lt;/span&gt;</property>
-            <property name="use_markup">True</property>
+          <object class="GtkHSeparator" id="hseparator1">
+            <property name="visible">True</property>
           </object>
           <packing>
             <property name="expand">False</property>
-            <property name="fill">False</property>
             <property name="position">1</property>
+          </packing>
+        </child>
+        <child>
+          <object class="GtkImage" id="imgResult">
+            <property name="stock">gtk-yes</property>
+          </object>
+          <packing>
+            <property name="position">2</property>
           </packing>
         </child>
         <child>
@@ -121,8 +127,11 @@
           </object>
           <packing>
             <property name="expand">False</property>
-            <property name="position">2</property>
+            <property name="position">3</property>
           </packing>
+        </child>
+        <child>
+          <placeholder/>
         </child>
         <child>
           <object class="GtkExpander" id="expander1">
@@ -212,13 +221,13 @@
             <child type="label">
               <object class="GtkLabel" id="label4">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">&lt;small&gt;Processo&lt;/small&gt;</property>
+                <property name="label" translatable="yes">&lt;small&gt;Log&lt;/small&gt;</property>
                 <property name="use_markup">True</property>
               </object>
             </child>
           </object>
           <packing>
-            <property name="position">3</property>
+            <property name="position">5</property>
           </packing>
         </child>
         <child>
@@ -228,10 +237,10 @@
                 <property name="visible">True</property>
                 <property name="orientation">vertical</property>
                 <child>
-                  <object class="GtkLabel" id="label1">
+                  <object class="GtkLabel" id="labelConcluded">
                     <property name="visible">True</property>
                     <property name="xalign">0</property>
-                    <property name="label" translatable="yes">&lt;small&gt;Processo conclu&#xED;do.&lt;/small&gt;</property>
+                    <property name="label" translatable="yes">&lt;small&gt;Comando conclu&#xED;do.&lt;/small&gt;</property>
                     <property name="use_markup">True</property>
                   </object>
                   <packing>
@@ -247,7 +256,7 @@
                       <object class="GtkLabel" id="label2">
                         <property name="visible">True</property>
                         <property name="xalign">0</property>
-                        <property name="label" translatable="yes">&lt;small&gt;Problemas:&lt;/small&gt;</property>
+                        <property name="label" translatable="yes">&lt;small&gt;Erros detectados:&lt;/small&gt;</property>
                         <property name="use_markup">True</property>
                       </object>
                       <packing>
@@ -306,7 +315,7 @@
           </object>
           <packing>
             <property name="expand">False</property>
-            <property name="position">4</property>
+            <property name="position">6</property>
           </packing>
         </child>
       </object>
