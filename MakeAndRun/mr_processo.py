@@ -375,7 +375,7 @@ class CmdProcess():
 
     def start_auto_close(self):
         
-        glib.timeout_add( 1380, self.on_auto_close_animation_timer )
+        glib.timeout_add( 750, self.on_auto_close_animation_timer )
     
         
     def on_auto_close_animation_timer(self):
