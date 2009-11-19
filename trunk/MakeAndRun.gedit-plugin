@@ -3,6 +3,6 @@ Loader=python
 Module=MakeAndRun
 IAge=2
 Name=Make and Run
-Description=Compila o projeto e executa (Ver.: 0.7.4)
+Description=Compila o projeto e executa (Ver.: 0.8.0)
 Authors=Ricardo Lenz <riclc@hotmail.com>
 Copyright=Copyright © 2009 Ricardo Lenz
