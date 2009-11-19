@@ -121,6 +121,20 @@ class MakefileManager:
 	    return False
 
 
+    def get_makefile_contents(self):
+
+        arqs = self.makefile_candidates_from_src()
+        for arq in arqs:
+            if os.path.exists( arq ):
+                f = open( arq, "r" )
+                lines = f.readlines()
+                f.close()
+                return lines
+
+        return []
+
+
+
     def make_build(self, mrplugin):
 
         self.mrplugin = mrplugin
@@ -203,11 +217,7 @@ class MakefileManager:
 
         # tenta adivinhar o nome do projeto com base no codigo atual
         #
-        arq = self.src.get_filename()
-        arq_sem_dir = os.path.basename(arq)
-        arq_nome_sem_ext, arq_ext = os.path.splitext( arq_sem_dir )
-
-        self.textPrograma.set_text( arq_nome_sem_ext.lower() )
+        self.textPrograma.set_text( self.src.get_filename_without_path_and_ext().lower() )
 
 
         # filtra os arquivos do diretorio e poe na lista de arquivos 2
@@ -451,34 +461,62 @@ class MakefileManager:
 
     def make_exec(self):
 
+        # existe o arquivo de makefile?
+        #
+        if not self.any_makefile_exists():
+            print "Makefile não encontrado"
+            
+            msgbox(
+                "Rodar Programa",
+                "Não foi encontrado um arquivo de Makefile no diretório.\n" +
+                "Por causa disso, não é possível rodar o código atual.",
+                "erro"
+            )
+            return
+
+
+
         # descobre o comando de 'make exec' que deve-se fazer pra
         # rodar o projeto (c / c++)
         #
 
         makeExecTarget = configurations.cmd_make_exec
-
         if makeExecTarget == '':
             makeExecTarget = "exec"
-            return
 
+
+        # existe o target 'exec' no makefile em questao?
+        #
+        found_exec = False
+        alt_target = makeExecTarget + "_" + self.src.get_filename_without_path_and_ext()
+        
+        makefile_lines = self.get_makefile_contents()
+        for line in makefile_lines:
+            if line[0:5] == 'exec:':
+                found_exec = True
+                break
+            elif line[0: len(alt_target)+1] == alt_target + ':':
+                found_exec = True
+                makeExecTarget = alt_target
+                break
+                
+        if not found_exec:
+            print "Makefile encontrado, mas sem '%s' ou '%s'" % (makeExecTarget, alt_target)
+            
+            msgbox(
+                "Rodar Programa",
+                ("Não foi encontrado '%s' ou '%s' no Makefile no diretório.\n" %
+                    (makeExecTarget, alt_target) ) +
+                "Por causa disso, não é possível rodar o código atual.",
+                "erro"
+            )
+            return
+            
+        
+        print "Makefile encontrado com '%s', executando..." % makeExecTarget
+        
         cmd = "make " + makeExecTarget
-
-
-        # o arquivo makefile existe?
-
-        if self.any_makefile_exists():
-            roda_cmd_on_dir( cmd, self.src.get_dir() )
-            return
-
-
-        # o arquivo makefile nao existe...
-
-        msgbox(
-            "Rodar Programa",
-            "Não foi encontrado um arquivo de Makefile no diretório.\n" +
-            "Por causa disso, não é possível rodar o código atual.",
-            "erro"
-        )
+        roda_cmd_on_dir( cmd, self.src.get_dir() )
 
 
 
@@ -491,7 +529,10 @@ class MakefileManager:
             p = CmdProcess()
             p.run_cmd_on_dir( "make clean", self.src.get_dir() )
 
-            #roda_cmd_on_dir( "make clean", self.src.get_dir() )
+            if configurations.make_auto_close_window:
+                p.imgResult.set_from_file( IMG_RESULT_CLEAN )
+                p.imgResult.show()
+                p.start_auto_close()                
             return
 
 
