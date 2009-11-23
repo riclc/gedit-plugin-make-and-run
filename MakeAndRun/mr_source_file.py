@@ -50,6 +50,13 @@ class SourceFile:
         return filename_dir
 
 
+    # ex.: /home/abc/def.c -> 'def.c'        
+    def get_filename_without_path(self):
+        
+        arq_sem_dir = os.path.basename( self.get_filename() )       
+        return arq_sem_dir
+
+
     # ex.: /home/abc/def.c -> 'def'        
     def get_filename_without_path_and_ext(self):
         
@@ -57,6 +64,15 @@ class SourceFile:
         arq_nome_sem_ext, arq_ext = os.path.splitext( arq_sem_dir )
         
         return arq_nome_sem_ext
+
+
+    # ex.: /home/abc/def.c -> '.c'        
+    def get_filename_ext(self):
+        
+        arq_sem_dir = os.path.basename( self.get_filename() )
+        arq_nome_sem_ext, arq_ext = os.path.splitext( arq_sem_dir )
+        
+        return arq_ext
 
 
     def get_lang(self):

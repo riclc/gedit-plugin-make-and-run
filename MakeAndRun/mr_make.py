@@ -222,14 +222,14 @@ class MakefileManager:
 
         # filtra os arquivos do diretorio e poe na lista de arquivos 2
         #
-        self.usando_c = arq_ext.lower() == '.c'
+        self.usando_c = self.src.get_filename_ext().lower() == '.c'
 
-        self.fontes = self.makefile_get_fontes( arq_ext )
+        self.fontes = self.makefile_get_fontes( self.src.get_filename_ext() )
 
         for f in self.fontes:
 
             # ja deixa o arquivo atual na lista de arquivos 1, claro.
-            if f == arq_sem_dir:
+            if f == self.src.get_filename_without_path():
                 it = self.storeArquivos1.append()
                 self.storeArquivos1.set( it, 0, f )
             else:
