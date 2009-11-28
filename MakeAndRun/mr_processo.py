@@ -12,9 +12,10 @@ import glib
 
 import os
 import os.path
-import fcntl
+#import fcntl
 import time
 from subprocess import *
+import thread
 
 from mr_msgbox import *
 from mr_globals import *
@@ -56,6 +57,7 @@ class CmdProcess():
         self.return_code = -1
         self.erros_gcc = []
         self.processo = None
+        self.processo_terminou = False
 
         self.outputIter = self.bufferOutput.get_start_iter()
 
@@ -92,7 +94,26 @@ class CmdProcess():
         self.cmd_executado = cmd
 
         self.windowProc.show()
-        self.fica_processando()
+        
+        # dispara uma thread para cuidar do output do processo
+        self.processo_terminou = False
+        thread.start_new_thread( self.processo_thread, () )
+        
+        # vamos ficar, aqui, por enquanto, num looping, processando a nossa GUI
+        #
+        while not self.processo_terminou: 
+            self.progressBar.pulse()
+
+            # roda tb o thread dos signals do gtk/x11
+            #
+            while gtk.events_pending():
+                gtk.main_iteration(False)
+
+            # espera um tempinho (senao a animacao da barra de progresso
+            # fica MUITO rapida). esse tempinho eh simplesmente uma suspensao
+            # temporaria do nosso proprio programa (bem leve)
+            #
+            time.sleep( 0.05 )
 
 
 
@@ -105,34 +126,27 @@ class CmdProcess():
         #gtk.main_quit()
 
 
-    def fica_processando(self):
+    def processo_thread(self):
 
         # seta a flag "unblock" do descritor do arquivo,
         # usando a chamada fcntl do sistema operacional.
         #
-        fcntl.fcntl( self.processo.stdout.fileno(), fcntl.F_SETFL, os.O_NONBLOCK )
+        #fcntl.fcntl( self.processo.stdout.fileno(), fcntl.F_SETFL, os.O_NONBLOCK )
+        #
+        # UPDATE: não fazemos mais isso. vamos simplesmente ler num thread à parte,
+        # então quando dá bloqueio, o thread à parte é que fica bloqueado.
         #
         ####
 
         while True:
             if not self.processando():
                 break
+        
+        self.processo_terminou = True
+
 
 
     def processando(self, *args):
-
-        self.progressBar.pulse()
-
-        # roda tb o thread dos signals do gtk/x11
-        #
-        while gtk.events_pending():
-            gtk.main_iteration(False)
-
-        # espera um tempinho (senao a animacao da barra de progresso
-        # fica MUITO rapida). esse tempinho eh simplesmente uma suspensao
-        # temporaria do nosso proprio programa (bem leve)
-        #
-        time.sleep( 0.05 )
 
         try:
             # o metodo readline() ficaria esperando ate
@@ -143,8 +157,11 @@ class CmdProcess():
             # nesse caso, a leitura do processo (quando ainda
             # nao tem nada pra ler) gera o ioerror 11.
             #
+            # UPDATE: agora, contudo, estamos num thread à parte do
+            # resto do programa, então fazemos readline() blocante.
+            #
             msg = self.processo.stdout.readline()
-
+            
         except IOError, ioerr:
 
             # Errno: 11 -> "Resource temporarily unavailable"
