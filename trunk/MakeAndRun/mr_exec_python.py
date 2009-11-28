@@ -14,7 +14,7 @@ import gtk
 import gobject
 import pango
 from subprocess import *
-import fcntl
+#import fcntl
 
 from mr_globals import *
 from mr_msgbox import *
@@ -26,7 +26,7 @@ class PythonRun:
     def __init__(self):
 
         self.processo = None
-        self.finished = False
+        self.processo_terminou = False
         self.killed = False
         self.arq = ""
         self.pluginManager = None
@@ -90,18 +90,14 @@ class PythonRun:
         self.windowRunning.show()
         self.windowRunning.set_focus( self.btnCancel )
 
-        self.wait_finish()
-
-
-    def file_desbloqueia(self, fd):
-        flags = fcntl.fcntl( fd, fcntl.F_GETFL )
-        fcntl.fcntl( fd, fcntl.F_SETFL, flags | os.O_NONBLOCK )
-
-
-
-    def gtk_do(self):
-        while gtk.events_pending():
-            gtk.main_iteration( block=False )
+        self.processo_terminou = False
+        thread.start_new_thread( self.processo_thread, () )
+        
+        # vamos ficar, aqui, por enquanto, num looping, processando a nossa GUI
+        #
+        while not self.processo_terminou:
+            while gtk.events_pending():
+                gtk.main_iteration(False)
 
 
     def processo_feedback(self):
@@ -137,42 +133,37 @@ class PythonRun:
                 use_align = True, xalign = 0.0, yalign = 1.0 )
 
 
-        self.gtk_do()
         return stdout_ok, stderr_ok
 
 
 
-    def wait_finish(self):
-
-        self.finished = False
-
-        self.file_desbloqueia( self.processo.stdout.fileno() )
-        self.file_desbloqueia( self.processo.stderr.fileno() )
+    def processo_thread(self):
 
         stdout_vazio = True
         stderr_vazio = True
-
-        while not self.finished:
-
-            stdout_ok, stderr_ok = self.processo_feedback()
-
-            if stdout_ok: stdout_vazio = False
-            if stderr_ok: stderr_vazio = False
-
-            if self.processo.poll() != None:
-                self.finished = True
+        
+        stdout_ok = False
+        stderr_ok = False
+        
+        while not self.processo_terminou:
+            stdout_ok, stderr_ok = self.processo_feedback() 
+            
+            if not stdout_ok and not stderr_ok and self.processo.poll() != None:
+                self.processo_terminou = True
+            else:
+                stdout_vazio = stdout_vazio or stdout_ok
+                stderr_vazio = stderr_vazio or stderr_ok
 
 
         # terminou o processo, tenta ver se ainda tem coisa pra ler.
         # varias vezes ainda tem.
-        while True:
-            stdout_ok, stderr_ok = self.processo_feedback()
-            if stdout_ok == stderr_ok == False:
-                break
-
-            if stdout_ok: stdout_vazio = False
-            if stderr_ok: stderr_vazio = False
-
+        #while True:
+        #    stdout_ok, stderr_ok = self.processo_feedback()
+        #    if stdout_ok == stderr_ok == False:
+        #        break
+        #
+        #    if stdout_ok: stdout_vazio = False
+        #    if stderr_ok: stderr_vazio = False
 
         err = self.processo.returncode != 0
 
@@ -216,7 +207,6 @@ class PythonRun:
         self.btnCancel.hide()
         self.btnClose.show()
         self.windowRunning.set_focus( self.btnClose )
-        self.gtk_do()
 
 
 
@@ -272,7 +262,7 @@ class PythonRun:
         if self.timeout_id == -1:
             return
 
-        if not self.finished:
+        if not self.processo_terminou:
             return
 
         self.windowRunning.set_title( \
