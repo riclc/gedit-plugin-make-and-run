@@ -135,22 +135,26 @@ class MakefileManager:
 
 
 
-    def make_build(self, mrplugin):
+    def make_build(self, mrplugin, rebuilding):
 
         self.mrplugin = mrplugin
 
         if self.any_makefile_exists():
-            self.makefile_run()
+            self.makefile_run( rebuilding )
         else:
             self.show_dlg_makefile()
 
 
 
-    def makefile_run(self):
+    def makefile_run(self, rebuilding):
 
+        if rebuilding:
+            cmd = "make clean && make"
+        else:
+            cmd = "make"
+            
         p = CmdProcess()
-        p.run_cmd_on_dir( "make", self.src.get_dir() )
-
+        p.run_cmd_on_dir( cmd, self.src.get_dir() )
         p.mostra_erros( self.mrplugin )
 
 
@@ -296,7 +300,7 @@ class MakefileManager:
 
         # roda com o Makefile gerado!
         #
-        self.makefile_run()
+        self.makefile_run( rebuilding = False )
 
 
 
