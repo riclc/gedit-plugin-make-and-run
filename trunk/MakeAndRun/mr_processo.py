@@ -16,6 +16,7 @@ import os.path
 import time
 from subprocess import *
 import thread
+from cgi import escape
 
 from mr_msgbox import *
 from mr_globals import *
@@ -73,7 +74,7 @@ class CmdProcess():
 
     def run_cmd_on_dir(self, cmd, on_dir):
 
-        self.labelCmd.set_markup( "<i><small>" + cmd + "</small></i>" )
+        self.labelCmd.set_markup( "<i><small>" + escape(cmd) + "</small></i>" )
         self.labelDir.set_markup( "<i><small>" + on_dir + "</small></i>" )
 
         os.chdir( on_dir )
