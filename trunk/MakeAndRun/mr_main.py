@@ -28,8 +28,8 @@ menu_ui = """
     <menu name="ToolsMenu" action="Tools">
 
       <placeholder name="ToolsOps_3">
-        <menuitem action="Compile" />
         <menuitem action="Make" />
+        <menuitem action="Rebuild" />
         <separator/>
         <menuitem action="Run" />
         <separator/>
@@ -42,8 +42,8 @@ menu_ui = """
 
     <toolbar name="ToolBar">
         <separator/>
-        <toolitem action="Compile"/>
         <toolitem action="Make"/>
+        <toolitem action="Rebuild"/>
         <separator/>
         <toolitem action="Run"/>
         <separator/>
@@ -74,21 +74,21 @@ class MakeAndRun:
 
         actionMakeClean = ("MakeClean",
                   gtk.STOCK_CLEAR,
-                  "Make _Clean",
+                  "Make C_lean",
                   "",
                   "Executa make clean no diretório atual",
                   self.on_action_make_clean )
 
-        actionCompile = ("Compile",
-                  gtk.STOCK_EXECUTE,
-                  "Compilar _Arquivo",
+        actionRebuild = ("Rebuild",
+                  gtk.STOCK_REFRESH,
+                  "_Rebuild",
                   "<Control>F5",
-                  "Compila o arquivo atual",
-                  self.on_action_compile )
+                  "Executa make clean seguido de make no diretório atual",
+                  self.on_action_rebuild )
 
         actionRun = ("Run",
-                  gtk.STOCK_YES,
-                  "_Rodar",
+                  gtk.STOCK_MEDIA_PLAY,
+                  "_Executar",
                   "F5",
                   "Roda o script python ou executa 'make exec'",
                   self.on_action_run )
@@ -104,7 +104,7 @@ class MakeAndRun:
         self.action_group.add_actions( [ \
             actionMake,
             actionMakeClean,
-            actionCompile,
+            actionRebuild,
             actionRun,
             actionConfigMakeAndRun], window )
 
@@ -114,10 +114,10 @@ class MakeAndRun:
         # text beside items, text below items, icons only, etc.
         #
         self.action_group.get_action( "Run" ).set_property("is-important", True)
+        self.action_group.get_action( "Run" ).set_property( \
+            "short-label", " Executar") # deixa um espaço a mais, de propósito.
         self.action_group.get_action( "ConfigMakeAndRun" ).set_property( \
             "short-label", "Config. Make")
-        self.action_group.get_action( "Compile" ).set_property( \
-            "short-label", "Compilar")
 
         ui_manager = window.get_ui_manager()
         ui_manager.insert_action_group( self.action_group, 0 )
@@ -222,7 +222,7 @@ class MakeAndRun:
         if not src.check_salvou():
             return
 
-        MakefileManager( src ).make_build( self )
+        MakefileManager( src ).make_build( self, rebuilding = False )
 
 
     def on_action_make_clean(self, *args):
@@ -234,13 +234,13 @@ class MakeAndRun:
         MakefileManager( src ).make_clean()
 
 
-    def on_action_compile(self, *args):
+    def on_action_rebuild(self, *args):
 
         src = self.get_src()
         if not src.check_salvou():
             return
 
-        CompileSource( src ).compiler_process.mostra_erros( self )
+        MakefileManager( src ).make_build( self, rebuilding = True )
 
 
     def on_action_run(self, *args):
