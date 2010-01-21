@@ -189,6 +189,7 @@ class MakefileManager:
         self.checkOpenMPI = builder.get_object( "checkOpenMPI" )
         self.checkDebug = builder.get_object( "checkDebug" )
         self.checkProfiling = builder.get_object( "checkProfiling" )
+        self.checkGTK = builder.get_object( "checkGTK" )
         self.textLDFLAGS = builder.get_object( "textLDFLAGS" )
         self.textCFLAGS = builder.get_object( "textCFLAGS" )
 
@@ -266,6 +267,8 @@ class MakefileManager:
             self.use_cflags += " -g"
         if self.checkProfiling.get_active():
             self.use_cflags += " -pg"           # em LDFLAGS tambem
+        if self.checkGTK.get_active():
+            self.use_cflags += " `pkg-config --cflags gtk+-2.0` "
         
         self.use_cflags += " " + self.textCFLAGS.get_text()
         
@@ -285,6 +288,8 @@ class MakefileManager:
             self.use_ldflags += " -fopenmp"     # em CFLAGS tambem
         if self.checkProfiling.get_active():
             self.use_ldflags += " -pg"          # em CFLAGS tambem
+        if self.checkGTK.get_active():
+            self.use_ldflags += " `pkg-config --libs gtk+-2.0` "
 
         self.use_ldflags += " " + self.textLDFLAGS.get_text()
 

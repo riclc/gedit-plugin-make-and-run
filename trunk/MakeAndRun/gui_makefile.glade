@@ -637,6 +637,24 @@ arquivo Makefile ser&#xE1; criado para voc&#xEA;.</property>
                                     <property name="position">5</property>
                                   </packing>
                                 </child>
+                                <child>
+                                  <object class="GtkCheckButton" id="checkGTK">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="draw_indicator">True</property>
+                                    <child>
+                                      <object class="GtkLabel" id="label24">
+                                        <property name="visible">True</property>
+                                        <property name="label" translatable="yes">&lt;i&gt;&lt;small&gt;GTK &lt;span foreground='#88aabb'&gt;&lt;b&gt;`pkg-config gtk+-2.0`&lt;/b&gt;&lt;/span&gt;&lt;/small&gt;&lt;/i&gt;</property>
+                                        <property name="use_markup">True</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="position">6</property>
+                                  </packing>
+                                </child>
                               </object>
                             </child>
                           </object>
