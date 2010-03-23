@@ -257,9 +257,12 @@ class MakeAndRun:
 
         if src.is_lang_python():
 
-            if not configurations.run_python_thru_make_exec:
+            if configurations.run_python_thru_make_exec:
+                roda_cmd( "python -u %s" % src.get_filename() )              
+            else:
                 PythonRun().from_file( src )
-                return
+                
+            return
 
 
         # chegou aqui? entao eh pra rodar algo como 'make exec'
