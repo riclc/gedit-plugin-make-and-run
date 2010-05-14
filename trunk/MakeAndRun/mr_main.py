@@ -258,7 +258,7 @@ class MakeAndRun:
         if src.is_lang_python():
 
             if configurations.run_python_thru_make_exec:
-                roda_cmd( "python -u %s" % src.get_filename() )              
+                roda_cmd( "python -u \"%s\"" % src.get_filename() )              
             else:
                 PythonRun().from_file( src )
                 
