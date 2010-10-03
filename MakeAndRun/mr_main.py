@@ -263,6 +263,13 @@ class MakeAndRun:
                 PythonRun().from_file( src )
                 
             return
+            
+            # TODO: patch pra rodar python, por enquanto que o esquema de rodar
+            # pelo interpretador não tá funcionando ok (sync etc)
+            #
+            else:
+                roda_cmd( "python \"%s\"" % src.get_filename() )
+                return
 
 
         # chegou aqui? entao eh pra rodar algo como 'make exec'

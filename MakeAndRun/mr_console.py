@@ -20,16 +20,15 @@ def roda_cmd(cmd):
     # o gedit, e retorna 0 como resposta. eh assincrono.
 
     if configurations.show_terminal:    
-        os.system(
-            "gnome-terminal --execute bash -c '" +
-            cmd +
-            " && " +
-            "echo && echo \"Aperte Enter para finalizar\"" +
-            " && " +
-            "read' &"
-        )
+        full_cmd = \
+            "gnome-terminal --execute bash -c '" + cmd + " && "     + \
+            "echo && echo \"Aperte Enter para finalizar\""          + \
+            " && read' &"
     else:
-        os.system( cmd + " &" )
+        full_cmd = cmd + " &"
+    
+    #print "Command: '%s'" % full_cmd
+    os.system( full_cmd )
     
 
 

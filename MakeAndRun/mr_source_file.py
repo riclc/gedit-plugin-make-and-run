@@ -39,7 +39,7 @@ class SourceFile:
 
         filename = self.doc.get_uri()
         if filename != "":
-	    filename = gio.File( filename ).get_path()
+            filename = gio.File( filename ).get_path()
             #filename = filename.replace( "file://", "" )
 
         return filename
