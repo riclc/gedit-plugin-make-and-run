@@ -294,6 +294,13 @@ class MakefileManager:
         self.use_ldflags += " " + self.textLDFLAGS.get_text()
 
 
+        # lê o resto dos campos antes de a janela ser destruída
+        #
+        self.makefile_prog_name = self.textPrograma.get_text()
+        self.makefile_check_openmpi = self.checkOpenMPI.get_active()
+        self.makefile_check_profiling = self.checkProfiling.get_active()
+
+
         # fecha a janela
         #
         self.windowMakefile.destroy()
@@ -374,14 +381,12 @@ class MakefileManager:
         makefile = self.default_makefile_from_src()
         mdir = self.src.get_dir()
 
-        prog = self.textPrograma.get_text()
-
         f = open( makefile, "w" )
         
         # parte basica inicial
         #
         
-        f.write( "PROGRAMA = " + prog + "\n" )
+        f.write( "PROGRAMA = " + self.makefile_prog_name + "\n" )
         f.write( "FONTES = " + self.fontes_marcados + "\n" )
 
         f.write( "\n" )
@@ -392,7 +397,7 @@ class MakefileManager:
         # parte 1
         #
         
-        if self.checkOpenMPI.get_active():
+        if self.makefile_check_openmpi:
             if self.usando_c:
                 f.write( makefile_1_c_mpi )
             else:
@@ -423,7 +428,7 @@ class MakefileManager:
         
         # parte 5
         #
-        if self.checkOpenMPI.get_active():
+        if self.makefile_check_openmpi:
             f.write( makefile_5_mpi )
         else:
             f.write( makefile_5_default )
@@ -431,7 +436,7 @@ class MakefileManager:
         
         # parte 6 (opcional)
         #
-        if self.checkProfiling.get_active():
+        if self.makefile_check_profiling:
             f.write( makefile_6_profiling )
             
 
