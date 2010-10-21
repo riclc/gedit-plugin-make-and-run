@@ -260,14 +260,11 @@ class MakeAndRun:
             if configurations.run_python_thru_make_exec:
                 roda_cmd( "python -u \"%s\"" % src.get_filename() )              
             else:
-                PythonRun().from_file( src )
-                
-            return
+                #PythonRun().from_file( src )
             
-            # TODO: patch pra rodar python, por enquanto que o esquema de rodar
-            # pelo interpretador não tá funcionando ok (sync etc)
-            #
-            else:
+                # TODO: patch pra rodar python, por enquanto que o esquema de rodar
+                # pelo interpretador não tá funcionando ok (sync etc)
+                #
                 roda_cmd( "python \"%s\"" % src.get_filename() )
                 return
 
