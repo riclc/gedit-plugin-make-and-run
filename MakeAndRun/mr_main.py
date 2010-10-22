@@ -257,16 +257,18 @@ class MakeAndRun:
 
         if src.is_lang_python():
 
-            if configurations.run_python_thru_make_exec:
-                roda_cmd( "python -u \"%s\"" % src.get_filename() )              
-            else:
-                #PythonRun().from_file( src )
-            
-                # TODO: patch pra rodar python, por enquanto que o esquema de rodar
-                # pelo interpretador não tá funcionando ok (sync etc)
-                #
-                roda_cmd( "python \"%s\"" % src.get_filename() )
-                return
+
+            #if configurations.run_python_thru_make_exec:
+            #    roda_cmd( "python -u \"%s\"" % src.get_filename() )              
+            #else:
+            #    PythonRun().from_file( src )
+            #    
+            # TODO: patch pra rodar python, por enquanto que o esquema de rodar
+            # pelo interpretador não tá funcionando ok (sync etc). então
+            # deixa sempre assim:
+            #
+            roda_cmd( "python -u \"%s\"" % src.get_filename() )
+            return
 
 
         # chegou aqui? entao eh pra rodar algo como 'make exec'
