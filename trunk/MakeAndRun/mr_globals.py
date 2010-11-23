@@ -13,7 +13,6 @@ GLADE_FILE_CONFIG = os.path.join( os.path.dirname( __file__ ), "gui_config.glade
 GLADE_FILE_OUTPUT = os.path.join( os.path.dirname( __file__ ), "gui_output.glade" )
 GLADE_FILE_MAKEFILE = os.path.join( os.path.dirname( __file__ ), "gui_makefile.glade" )
 GLADE_FILE_PROCESS = os.path.join( os.path.dirname( __file__ ), "gui_process.glade" )
-GLADE_FILE_RUNNING = os.path.join( os.path.dirname( __file__ ), "gui_running.glade" )
 
 IMG_COMP = os.path.join( os.path.dirname( __file__ ), "imgs", "iconComp.png" )
 IMG_SAVE = os.path.join( os.path.dirname( __file__ ), "imgs", "iconSave.png" )
@@ -40,11 +39,8 @@ class configurations:
     cmd_make_exec                        = "exec"
     show_terminal                        = True
     show_warnings			             = False
-    make_auto_close_window               = True
-    
-    run_python_thru_make_exec            = False
-    run_python_auto_close_window         = True
-    run_python_auto_close_window_by_time = True
+    make_auto_close_window               = True    
+    run_auto_close_window                = True
 
     bottom_panel_size                    = 200
     bottom_panel_size_ignore             = False
@@ -72,12 +68,8 @@ class configurations:
                 GCONF_DIR + "show_warnings" ).get_bool()
             configurations.make_auto_close_window = gclient.get( \
                 GCONF_DIR + "make_auto_close_window" ).get_bool()
-            configurations.run_python_thru_make_exec = gclient.get( \
-                GCONF_DIR + "run_python_thru_make_exec" ).get_bool()
-            configurations.run_python_auto_close_window = gclient.get( \
-                GCONF_DIR + "run_python_auto_close_window" ).get_bool()
-            configurations.run_python_auto_close_window_by_time = gclient.get( \
-                GCONF_DIR + "run_python_auto_close_window_by_time" ).get_bool()
+            configurations.run_auto_close_window = gclient.get( \
+                GCONF_DIR + "run_auto_close_window" ).get_bool()
 
             configurations.bottom_panel_size = gclient.get( \
                 GCONF_DIR + "bottom_panel_size" ).get_int()
@@ -110,12 +102,8 @@ class configurations:
         gclient.set_bool( GCONF_DIR + "make_auto_close_window", \
             configurations.make_auto_close_window )
             
-        gclient.set_bool( GCONF_DIR + "run_python_thru_make_exec", \
-            configurations.run_python_thru_make_exec )
-        gclient.set_bool( GCONF_DIR + "run_python_auto_close_window", \
-            configurations.run_python_auto_close_window )
-        gclient.set_bool( GCONF_DIR + "run_python_auto_close_window_by_time", \
-            configurations.run_python_auto_close_window_by_time )
+        gclient.set_bool( GCONF_DIR + "run_auto_close_window", \
+            configurations.run_auto_close_window )
 
         gclient.set_int( GCONF_DIR + "bottom_panel_size", \
             configurations.bottom_panel_size )

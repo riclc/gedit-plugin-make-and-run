@@ -18,7 +18,6 @@ from mr_console import *
 from mr_compile import *
 from mr_make import *
 from mr_find_file_from_error import *
-from mr_exec_python import *
 
 
 menu_ui = """
@@ -249,24 +248,10 @@ class MakeAndRun:
         if not src.check_salvou():
             return
 
-
-        # se o codigo for python, pode rodar ate mesmo no interpretador.
-        # senao, roda com 'make exec' mesmo.
-        #
         src.muda_pro_diretorio_do_arquivo()
 
         if src.is_lang_python():
 
-
-            #if configurations.run_python_thru_make_exec:
-            #    roda_cmd( "python -u \"%s\"" % src.get_filename() )              
-            #else:
-            #    PythonRun().from_file( src )
-            #    
-            # TODO: patch pra rodar python, por enquanto que o esquema de rodar
-            # pelo interpretador não tá funcionando ok (sync etc). então
-            # deixa sempre assim:
-            #
             roda_cmd( "python -u \"%s\"" % src.get_filename() )
             return
 
@@ -281,3 +266,4 @@ class MakeAndRun:
 
         w = self.pluginManager.create_configure_dialog()
         w.show()
+

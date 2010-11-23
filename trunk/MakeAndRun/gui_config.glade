@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <interface>
   <requires lib="gtk+" version="2.16"/>
   <!-- interface-naming-policy project-wide -->
@@ -10,13 +10,11 @@
     <child>
       <object class="GtkVBox" id="vbox1">
         <property name="visible">True</property>
-        <property name="orientation">vertical</property>
         <property name="spacing">2</property>
         <child>
           <object class="GtkVBox" id="vbox2">
             <property name="visible">True</property>
             <property name="border_width">3</property>
-            <property name="orientation">vertical</property>
             <property name="spacing">4</property>
             <child>
               <object class="GtkNotebook" id="notebook1">
@@ -33,7 +31,6 @@
                     <child>
                       <object class="GtkVBox" id="vbox4">
                         <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
                         <property name="spacing">3</property>
                         <child>
                           <object class="GtkHBox" id="hbox3">
@@ -53,7 +50,7 @@
                             <child>
                               <object class="GtkTable" id="table1">
                                 <property name="visible">True</property>
-                                <property name="n_rows">3</property>
+                                <property name="n_rows">5</property>
                                 <property name="n_columns">2</property>
                                 <property name="column_spacing">9</property>
                                 <property name="row_spacing">4</property>
@@ -85,7 +82,7 @@
                                   <object class="GtkEntry" id="textC">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="invisible_char">&#x25CF;</property>
+                                    <property name="invisible_char">●</property>
                                     <property name="text" translatable="yes">gcc -c</property>
                                   </object>
                                   <packing>
@@ -99,7 +96,7 @@
                                   <object class="GtkEntry" id="textCpp">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="invisible_char">&#x25CF;</property>
+                                    <property name="invisible_char">●</property>
                                     <property name="text" translatable="yes">g++ -c</property>
                                   </object>
                                   <packing>
@@ -128,7 +125,7 @@
                                   <object class="GtkEntry" id="textPythonComp">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
-                                    <property name="invisible_char">&#x25CF;</property>
+                                    <property name="invisible_char">●</property>
                                     <property name="text" translatable="yes">pyflakes</property>
                                   </object>
                                   <packing>
@@ -138,6 +135,49 @@
                                     <property name="bottom_attach">3</property>
                                     <property name="x_options"></property>
                                     <property name="y_options"></property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkCheckButton" id="checkMakeFecharAuto">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="active">True</property>
+                                    <property name="draw_indicator">True</property>
+                                    <child>
+                                      <object class="GtkLabel" id="label17">
+                                        <property name="visible">True</property>
+                                        <property name="label" translatable="yes">Fechar a janela de make automaticamente se compilado com sucesso</property>
+                                        <property name="use_markup">True</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="right_attach">2</property>
+                                    <property name="top_attach">4</property>
+                                    <property name="bottom_attach">5</property>
+                                    <property name="y_options">GTK_FILL</property>
+                                  </packing>
+                                </child>
+                                <child>
+                                  <object class="GtkCheckButton" id="checkShowWarnings">
+                                    <property name="visible">True</property>
+                                    <property name="can_focus">True</property>
+                                    <property name="receives_default">False</property>
+                                    <property name="draw_indicator">True</property>
+                                    <child>
+                                      <object class="GtkLabel" id="label16">
+                                        <property name="visible">True</property>
+                                        <property name="label" translatable="yes">Mostrar &lt;i&gt;warnings&lt;/i&gt; e outros avisos, mesmo se compilado OK</property>
+                                        <property name="use_markup">True</property>
+                                      </object>
+                                    </child>
+                                  </object>
+                                  <packing>
+                                    <property name="right_attach">2</property>
+                                    <property name="top_attach">3</property>
+                                    <property name="bottom_attach">4</property>
+                                    <property name="y_options">GTK_FILL</property>
                                   </packing>
                                 </child>
                               </object>
@@ -182,16 +222,15 @@
                             <child>
                               <object class="GtkVBox" id="vbox9">
                                 <property name="visible">True</property>
-                                <property name="orientation">vertical</property>
                                 <child>
                                   <object class="GtkLabel" id="label11">
                                     <property name="visible">True</property>
                                     <property name="xalign">0</property>
                                     <property name="yalign">1</property>
                                     <property name="ypad">9</property>
-                                    <property name="label" translatable="yes">Ao compilar o c&#xF3;digo-fonte, &#xE9; necess&#xE1;rio que o arquivo tenha sido salvo.
-Isso pode ser feito automaticamente ou apenas informado ao usu&#xE1;rio.
-Qual op&#xE7;&#xE3;o voc&#xEA; prefere?</property>
+                                    <property name="label" translatable="yes">Ao compilar o código-fonte, é necessário que o arquivo tenha sido salvo.
+Isso pode ser feito automaticamente ou apenas informado ao usuário.
+Qual opção você prefere?</property>
                                     <property name="justify">fill</property>
                                   </object>
                                   <packing>
@@ -202,7 +241,6 @@ Qual op&#xE7;&#xE3;o voc&#xEA; prefere?</property>
                                 <child>
                                   <object class="GtkVBox" id="vbox5">
                                     <property name="visible">True</property>
-                                    <property name="orientation">vertical</property>
                                     <child>
                                       <object class="GtkRadioButton" id="radioSaveAuto">
                                         <property name="label" translatable="yes">Salvar arquivo automaticamente</property>
@@ -213,12 +251,13 @@ Qual op&#xE7;&#xE3;o voc&#xEA; prefere?</property>
                                         <property name="draw_indicator">True</property>
                                       </object>
                                       <packing>
+                                        <property name="expand">False</property>
                                         <property name="position">0</property>
                                       </packing>
                                     </child>
                                     <child>
                                       <object class="GtkRadioButton" id="radioSaveManual">
-                                        <property name="label" translatable="yes">Pedir para o usu&#xE1;rio salvar</property>
+                                        <property name="label" translatable="yes">Pedir para o usuário salvar</property>
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
                                         <property name="receives_default">False</property>
@@ -226,6 +265,7 @@ Qual op&#xE7;&#xE3;o voc&#xEA; prefere?</property>
                                         <property name="group">radioSaveAuto</property>
                                       </object>
                                       <packing>
+                                        <property name="expand">False</property>
                                         <property name="position">1</property>
                                       </packing>
                                     </child>
@@ -266,7 +306,6 @@ Qual op&#xE7;&#xE3;o voc&#xEA; prefere?</property>
                     <child>
                       <object class="GtkVBox" id="vbox6">
                         <property name="visible">True</property>
-                        <property name="orientation">vertical</property>
                         <property name="spacing">6</property>
                         <child>
                           <object class="GtkHBox" id="hbox4">
@@ -287,7 +326,7 @@ Qual op&#xE7;&#xE3;o voc&#xEA; prefere?</property>
                             <child>
                               <object class="GtkVBox" id="vbox10">
                                 <property name="visible">True</property>
-                                <property name="orientation">vertical</property>
+                                <property name="spacing">4</property>
                                 <child>
                                   <object class="GtkTable" id="table2">
                                     <property name="visible">True</property>
@@ -298,7 +337,7 @@ Qual op&#xE7;&#xE3;o voc&#xEA; prefere?</property>
                                       <object class="GtkEntry" id="textMakeExec">
                                         <property name="visible">True</property>
                                         <property name="can_focus">True</property>
-                                        <property name="invisible_char">&#x25CF;</property>
+                                        <property name="invisible_char">●</property>
                                         <property name="text" translatable="yes">exec</property>
                                       </object>
                                       <packing>
@@ -342,41 +381,40 @@ Qual op&#xE7;&#xE3;o voc&#xEA; prefere?</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkCheckButton" id="checkShowWarnings">
+                                  <object class="GtkLabel" id="label1">
                                     <property name="visible">True</property>
-                                    <property name="can_focus">True</property>
-                                    <property name="receives_default">False</property>
-                                    <property name="draw_indicator">True</property>
-                                    <child>
-                                      <object class="GtkLabel" id="label16">
-                                        <property name="visible">True</property>
-                                        <property name="label" translatable="yes">Mostrar &lt;i&gt;warnings&lt;/i&gt; e outros avisos</property>
-                                        <property name="use_markup">True</property>
-                                      </object>
-                                    </child>
+                                    <property name="xalign">0</property>
+                                    <property name="yalign">0</property>
+                                    <property name="label" translatable="yes">&lt;i&gt;Lembre-se que a janela do terminal é útil mesmo em aplicações visuais,
+pois assim pode-se ver possíveis erros e avisos durante a execução.&lt;/i&gt;</property>
+                                    <property name="use_markup">True</property>
                                   </object>
                                   <packing>
                                     <property name="position">2</property>
                                   </packing>
                                 </child>
                                 <child>
-                                  <object class="GtkCheckButton" id="checkMakeFecharAuto">
+                                  <object class="GtkCheckButton" id="checkFecharAuto">
                                     <property name="visible">True</property>
                                     <property name="can_focus">True</property>
                                     <property name="receives_default">False</property>
                                     <property name="active">True</property>
                                     <property name="draw_indicator">True</property>
                                     <child>
-                                      <object class="GtkLabel" id="label17">
+                                      <object class="GtkLabel" id="label7">
                                         <property name="visible">True</property>
-                                        <property name="label" translatable="yes">Fechar a janela de make automaticamente se compilado com sucesso</property>
+                                        <property name="label" translatable="yes">Fechar a janela de execução automaticamente ao terminar a aplicação</property>
                                         <property name="use_markup">True</property>
                                       </object>
                                     </child>
                                   </object>
                                   <packing>
+                                    <property name="expand">False</property>
                                     <property name="position">3</property>
                                   </packing>
+                                </child>
+                                <child>
+                                  <placeholder/>
                                 </child>
                               </object>
                               <packing>
@@ -386,159 +424,6 @@ Qual op&#xE7;&#xE3;o voc&#xEA; prefere?</property>
                           </object>
                           <packing>
                             <property name="position">0</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkHSeparator" id="hseparator2">
-                            <property name="height_request">10</property>
-                            <property name="visible">True</property>
-                          </object>
-                          <packing>
-                            <property name="expand">False</property>
-                            <property name="position">1</property>
-                          </packing>
-                        </child>
-                        <child>
-                          <object class="GtkHBox" id="hbox5">
-                            <property name="visible">True</property>
-                            <child>
-                              <object class="GtkImage" id="imgPython">
-                                <property name="visible">True</property>
-                                <property name="yalign">0</property>
-                                <property name="xpad">14</property>
-                                <property name="ypad">12</property>
-                                <property name="stock">gtk-sort-descending</property>
-                              </object>
-                              <packing>
-                                <property name="expand">False</property>
-                                <property name="position">0</property>
-                              </packing>
-                            </child>
-                            <child>
-                              <object class="GtkVBox" id="vbox11">
-                                <property name="visible">True</property>
-                                <property name="orientation">vertical</property>
-                                <child>
-                                  <object class="GtkLabel" id="label6">
-                                    <property name="visible">True</property>
-                                    <property name="xalign">0</property>
-                                    <property name="label" translatable="yes">Ao executar arquivos em Python:</property>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="position">0</property>
-                                  </packing>
-                                </child>
-                                <child>
-                                  <object class="GtkAlignment" id="alignment7">
-                                    <property name="visible">True</property>
-                                    <property name="left_padding">32</property>
-                                    <child>
-                                      <object class="GtkVBox" id="vbox7">
-                                        <property name="visible">True</property>
-                                        <property name="orientation">vertical</property>
-                                        <child>
-                                          <object class="GtkRadioButton" id="radioPythonMake">
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">False</property>
-                                            <property name="active">True</property>
-                                            <property name="draw_indicator">True</property>
-                                            <child>
-                                              <object class="GtkLabel" id="label1">
-                                                <property name="visible">True</property>
-                                                <property name="label" translatable="yes">Rodar pelo esquema de &lt;i&gt;make exec&lt;/i&gt; como em C/C++</property>
-                                                <property name="use_markup">True</property>
-                                              </object>
-                                            </child>
-                                          </object>
-                                          <packing>
-                                            <property name="position">0</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkRadioButton" id="radioPythonInterp">
-                                            <property name="label" translatable="yes">Rodar pelo interpretador do Python</property>
-                                            <property name="visible">True</property>
-                                            <property name="can_focus">True</property>
-                                            <property name="receives_default">False</property>
-                                            <property name="draw_indicator">True</property>
-                                            <property name="group">radioPythonMake</property>
-                                          </object>
-                                          <packing>
-                                            <property name="position">1</property>
-                                          </packing>
-                                        </child>
-                                        <child>
-                                          <object class="GtkAlignment" id="alignment6">
-                                            <property name="visible">True</property>
-                                            <property name="left_padding">16</property>
-                                            <child>
-                                              <object class="GtkVBox" id="vbox3">
-                                                <property name="visible">True</property>
-                                                <property name="orientation">vertical</property>
-                                                <child>
-                                                  <object class="GtkCheckButton" id="checkFecharAuto">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="receives_default">False</property>
-                                                    <property name="active">True</property>
-                                                    <property name="draw_indicator">True</property>
-                                                    <child>
-                                                      <object class="GtkLabel" id="label7">
-                                                        <property name="visible">True</property>
-                                                        <property name="label" translatable="yes">&lt;small&gt;&lt;i&gt;Fechar a janela de execu&#xE7;&#xE3;o automaticamente ao terminar a aplica&#xE7;&#xE3;o&lt;/i&gt;&lt;/small&gt;</property>
-                                                        <property name="use_markup">True</property>
-                                                      </object>
-                                                    </child>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="position">0</property>
-                                                  </packing>
-                                                </child>
-                                                <child>
-                                                  <object class="GtkCheckButton" id="checkFecharAutoTime">
-                                                    <property name="visible">True</property>
-                                                    <property name="can_focus">True</property>
-                                                    <property name="receives_default">False</property>
-                                                    <property name="active">True</property>
-                                                    <property name="draw_indicator">True</property>
-                                                    <child>
-                                                      <object class="GtkLabel" id="label15">
-                                                        <property name="visible">True</property>
-                                                        <property name="label" translatable="yes">&lt;small&gt;&lt;i&gt;Fechar a janela de execu&#xE7;&#xE3;o se inativa por muito tempo&lt;/i&gt;&lt;/small&gt;</property>
-                                                        <property name="use_markup">True</property>
-                                                      </object>
-                                                    </child>
-                                                  </object>
-                                                  <packing>
-                                                    <property name="position">1</property>
-                                                  </packing>
-                                                </child>
-                                              </object>
-                                            </child>
-                                          </object>
-                                          <packing>
-                                            <property name="position">2</property>
-                                          </packing>
-                                        </child>
-                                      </object>
-                                    </child>
-                                  </object>
-                                  <packing>
-                                    <property name="expand">False</property>
-                                    <property name="padding">4</property>
-                                    <property name="position">1</property>
-                                  </packing>
-                                </child>
-                              </object>
-                              <packing>
-                                <property name="position">1</property>
-                              </packing>
-                            </child>
-                          </object>
-                          <packing>
-                            <property name="position">2</property>
                           </packing>
                         </child>
                       </object>
@@ -582,15 +467,14 @@ Qual op&#xE7;&#xE3;o voc&#xEA; prefere?</property>
                         <child>
                           <object class="GtkVBox" id="vbox12">
                             <property name="visible">True</property>
-                            <property name="orientation">vertical</property>
                             <child>
                               <object class="GtkLabel" id="label8">
                                 <property name="visible">True</property>
                                 <property name="xalign">0</property>
                                 <property name="ypad">4</property>
                                 <property name="label" translatable="yes">Muitas vezes o Gedit exibe o painel inferior com um tamanho bem
-grande que pode incomodar o usu&#xE1;rio. Abaixo, voc&#xEA; pode especificar
-um tamanho padr&#xE3;o para o painel inferior.</property>
+grande que pode incomodar o usuário. Abaixo, você pode especificar
+um tamanho padrão para o painel inferior.</property>
                                 <property name="justify">fill</property>
                               </object>
                               <packing>
@@ -608,7 +492,6 @@ um tamanho padr&#xE3;o para o painel inferior.</property>
                                 <child>
                                   <object class="GtkVBox" id="vbox8">
                                     <property name="visible">True</property>
-                                    <property name="orientation">vertical</property>
                                     <property name="spacing">13</property>
                                     <child>
                                       <object class="GtkHBox" id="hbox1">
@@ -630,7 +513,7 @@ um tamanho padr&#xE3;o para o painel inferior.</property>
                                           <object class="GtkEntry" id="textPanelSize">
                                             <property name="visible">True</property>
                                             <property name="can_focus">True</property>
-                                            <property name="invisible_char">&#x25CF;</property>
+                                            <property name="invisible_char">●</property>
                                             <property name="text" translatable="yes">200</property>
                                           </object>
                                           <packing>
@@ -653,7 +536,7 @@ um tamanho padr&#xE3;o para o painel inferior.</property>
                                         <child>
                                           <object class="GtkLabel" id="label10">
                                             <property name="visible">True</property>
-                                            <property name="label" translatable="yes">N&#xE3;o alterar o tamanho do painel</property>
+                                            <property name="label" translatable="yes">Não alterar o tamanho do painel</property>
                                             <property name="use_markup">True</property>
                                           </object>
                                         </child>
@@ -685,7 +568,7 @@ um tamanho padr&#xE3;o para o painel inferior.</property>
                 <child type="tab">
                   <object class="GtkLabel" id="label14">
                     <property name="visible">True</property>
-                    <property name="label" translatable="yes">Interface</property>
+                    <property name="label" translatable="yes">Interface GEdit</property>
                   </object>
                   <packing>
                     <property name="position">2</property>
