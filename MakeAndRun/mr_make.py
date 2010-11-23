@@ -527,10 +527,11 @@ class MakefileManager:
             return
             
         
-        print "Makefile encontrado com '%s', executando..." % makeExecTarget
+        #print "Makefile encontrado com '%s', executando..." % makeExecTarget
         
         cmd = "make " + makeExecTarget
-        roda_cmd_on_dir( cmd, self.src.get_dir() )
+        roda_cmd_on_dir( cmd, self.src.get_dir(), \
+            auto_close = configurations.run_auto_close_window )
 
 
 
