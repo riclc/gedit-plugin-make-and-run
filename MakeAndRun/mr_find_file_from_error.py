@@ -10,6 +10,7 @@ import os
 import os.path
 import gtk
 import gedit
+import gio
 from glob import *
 
 from mr_msgbox import *
@@ -58,7 +59,9 @@ def find_file_from_error(mrplugin, error_iter, can_msgbox = True):
             
         return
     
-    arq_uri = "file://" + arq_full
+    #arq_uri = "file://" + arq_full
+    arq_uri = gio.File( arq_full ).get_uri()
+    
     new_tab = mrplugin.window.create_tab_from_uri(
         uri = arq_uri,
         encoding = gedit.encoding_get_current(),
