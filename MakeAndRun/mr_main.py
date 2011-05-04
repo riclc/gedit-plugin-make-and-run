@@ -252,7 +252,8 @@ class MakeAndRun:
 
         if src.is_lang_python():
 
-            roda_cmd( "python -u \"%s\"" % src.get_filename() )
+            roda_cmd( "python -u \"%s\"" % src.get_filename() , \
+                auto_close = configurations.run_auto_close_window )
             return
 
 
