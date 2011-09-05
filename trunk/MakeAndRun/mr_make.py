@@ -219,6 +219,7 @@ class MakefileManager:
         self.btnRemove.connect( "clicked", self.on_dlg_makefile_del )
         self.btnAdicionaTodos.connect( "clicked", self.on_dlg_makefile_add_all )
         self.btnRemoveTodos.connect( "clicked", self.on_dlg_makefile_del_all )
+        self.windowMakefile.connect( "key-press-event", self.on_dlg_keypress )
 
         # tenta adivinhar o nome do projeto com base no codigo atual
         #
@@ -320,6 +321,16 @@ class MakefileManager:
 
         self.windowMakefile.destroy()
         gtk.main_quit()
+    
+    
+    def on_dlg_keypress(self, widget, event):
+        
+        if event.keyval == gtk.keysyms.Escape:
+            self.on_dlg_makefile_cancel()
+            return True
+        
+        return False
+
 
 
     def on_dlg_makefile_add(self, *args):
