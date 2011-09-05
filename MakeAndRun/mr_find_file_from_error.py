@@ -24,13 +24,16 @@ def find_file_from_error(mrplugin, error_iter, can_msgbox = True):
     arq = mrplugin.storeOutput.get_value( error_iter, 0 )
     linha = mrplugin.storeOutput.get_value( error_iter, 1 ) - 1
 
+    arq_full = os.path.abspath( os.path.join( mrplugin.get_src().get_dir(), arq ) )
+    arq_full_uri = gio.File( arq_full ).get_uri()
+
     # procura o documento aberto no gedit que possa ter o mesmo
     # basename que o arquivo indicado no erro relatado.
     #
     for d in mrplugin.window.get_documents():
-        doc_arq = os.path.basename( d.get_uri() )
-
-        if arq == doc_arq:
+        doc_arq_uri = d.get_uri()
+        
+        if arq_full_uri == doc_arq_uri:
         
             # define um novo 'active_document' 
             #
@@ -41,13 +44,10 @@ def find_file_from_error(mrplugin, error_iter, can_msgbox = True):
             mrplugin.get_src().mark_error( linha )
             
             return
-        
-    
+            
     # chegou aqui? entao nao achou o arquivo aberto no gedit.
     # tenta abrir entao..
-    
-    arq_full = os.path.join( mrplugin.get_src().get_dir(), arq )
-    
+        
     if not os.path.exists( arq_full ):
         if can_msgbox:
             msgbox( "Ir para linha do erro", \
