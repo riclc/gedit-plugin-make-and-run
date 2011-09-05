@@ -28,12 +28,32 @@ def find_file_from_error(mrplugin, error_iter, can_msgbox = True):
     arq_full_uri = gio.File( arq_full ).get_uri()
 
     # procura o documento aberto no gedit que possa ter o mesmo
-    # basename que o arquivo indicado no erro relatado.
+    # uri que o arquivo indicado no erro relatado.
     #
     for d in mrplugin.window.get_documents():
         doc_arq_uri = d.get_uri()
         
         if arq_full_uri == doc_arq_uri:
+        
+            # define um novo 'active_document' 
+            #
+            tab = gedit.tab_get_from_document( d )
+            mrplugin.window.set_active_tab( tab )
+            
+            mrplugin.get_src().remove_error()
+            mrplugin.get_src().mark_error( linha )
+            
+            return
+
+    # já que não achou um URI completo, procura um documento aberto
+    # no gedit que possa ter pelo menos o mesmo basename (ex.: a.c).
+    #
+    arq_basename = os.path.basename( gio.File( arq_full ).get_path() )
+    
+    for d in mrplugin.window.get_documents():
+        doc_arq_basename = os.path.basename( gio.File( d.get_uri() ).get_path() )
+        
+        if arq_basename == doc_arq_basename:
         
             # define um novo 'active_document' 
             #
